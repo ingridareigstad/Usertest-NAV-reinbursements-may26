@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avstemming av refusjoner – Tripletex</title>
+<link rel="stylesheet" href="https://cdn.tripletex.no/google-fonts/rubik-400-500-800.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --atl-color-white: #ffffff;
+    --atl-color-bg: #f7f8fc;
+    --atl-color-blue-5: #f2f5ff;
+    --atl-color-blue-10: #e6ebff;
+    --atl-color-blue-20: #ced9fe;
+    --atl-color-blue-60: #6c8dfc;
+    --atl-color-blue-80: #3b67fb;
+    --atl-color-blue-100: #0a41fa;
+    --atl-color-grey-5: #f4f5f6;
+    --atl-color-grey-10: #e9eaed;
+    --atl-color-grey-20: #d5d7db;
+    --atl-color-grey-40: #abafb7;
+    --atl-color-grey-60: #818794;
+    --atl-color-grey-80: #51596a;
+    --atl-color-grey-100: #2e384d;
+    --atl-color-green-5: #f4fbf4;
+    --atl-color-green-40: #addeab;
+    --atl-color-green-80: #5bbc57;
+    --atl-color-green-100: #33ac2e;
+    --atl-color-red-5: #fef4f5;
+    --atl-color-red-40: #f6aeb4;
+    --atl-color-red-100: #e83645;
+    --atl-color-yellow-5: #fffcf5;
+    --atl-color-yellow-40: #fce6af;
+    --atl-color-yellow-100: #f7c137;
+    --atl-border-radius: 4px;
+    --atl-font-normal: 400;
+    --atl-font-medium: 500;
+    --atl-text-sm: 14px/20px "Rubik", sans-serif;
+    --atl-text-lg: 16px/1.3 "Rubik", sans-serif;
+  }
+
+  body {
+    font: var(--atl-text-sm);
+    font-weight: var(--atl-font-normal);
+    color: var(--atl-color-grey-100);
+    background: var(--atl-color-bg);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── App shell ────────────────────────────────────── */
+  .shell { display: flex; flex-direction: column; height: 100vh; }
+
+  /* ── Topbar ───────────────────────────────────────── */
+  .topbar { height: 48px; background: #D8EAEB; display: flex; align-items: center; padding: 0 8px 0 12px; gap: 0; flex-shrink: 0; z-index: 100; }
+  .tb-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+  .tb-icon-btn { width: 32px; height: 32px; background: none; border: none; cursor: default; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--atl-color-grey-100); flex-shrink: 0; }
+  .tb-icon-btn svg { width: 17px; height: 17px; }
+  .tb-logo { font: 500 17px/1 "Rubik", sans-serif; color: var(--atl-color-grey-100); letter-spacing: -0.5px; flex-shrink: 0; }
+  .tb-sep { width: 1px; height: 18px; background: var(--atl-color-grey-20); flex-shrink: 0; margin: 0 4px; }
+  .tb-company { display: flex; align-items: center; gap: 6px; }
+  .tb-company-badge { width: 22px; height: 22px; border-radius: 50%; background: var(--atl-color-blue-100); color: #fff; font: 600 11px/1 "Rubik", sans-serif; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tb-company-name { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .tb-right { display: flex; align-items: center; gap: 2px; }
+  .tb-search { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 99px; font: var(--atl-text-sm); color: var(--atl-color-grey-60); width: 128px; margin-right: 6px; cursor: default; flex-shrink: 0; }
+  .tb-assistant { height: 30px; padding: 0 10px; background: #E9F5F5; border: none; border-radius: 4px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); cursor: default; display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; margin-right: 4px; }
+
+  .shell-body { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ──────────────────────────────────────── */
+  .sidebar { width: 222px; background: #F7F8FC; border-right: 1px solid var(--atl-color-grey-10); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; padding: 4px 0; }
+  .nav-item { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; margin: 1px 6px; border-radius: 5px; font: var(--atl-text-sm); color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; overflow: hidden; }
+  .nav-item:hover { background: var(--atl-color-grey-5); color: var(--atl-color-grey-100); }
+  .nav-item--active { background: transparent; color: var(--atl-color-grey-100); font-weight: var(--atl-font-normal); }
+  .nav-icon { width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: inherit; }
+  .nav-item--active .nav-icon { width: 24px; height: 24px; background: var(--atl-color-blue-100); border-radius: 5px; color: #fff; }
+  .nav-sub { display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 10px 0 34px; margin: 0 6px; border-radius: 5px; font: 12px/1 "Rubik", sans-serif; color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; }
+  .nav-sub:hover { background: var(--atl-color-grey-5); color: var(--atl-color-grey-100); }
+  .nav-sub--active { color: var(--atl-color-grey-100); font-weight: var(--atl-font-medium); }
+  .nav-bullet { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  /* ── Main content ─────────────────────────────────── */
+  .main-content { flex: 1; overflow: hidden; display: flex; flex-direction: column; padding: 28px 16px 16px; gap: 28px; }
+
+  /* ── Page header ──────────────────────────────────── */
+  .page-header { padding: 0; flex-shrink: 0; }
+  .page-title { font: 24px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); margin-bottom: 4px; }
+  .page-subtitle { font: var(--atl-text-sm); color: var(--atl-color-grey-60); }
+
+  /* ── Filter bar ───────────────────────────────────── */
+  .filter-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px;
+    background: var(--atl-color-white);
+    border-bottom: 1px solid var(--atl-color-grey-20);
+    flex-shrink: 0; flex-wrap: wrap;
+  }
+  .filter-bar-left { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
+  .filter-bar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+  .filter-btn {
+    height: 36px; padding: 0 12px;
+    background: #E6EBFF;
+    border: 1px solid #E6EBFF;
+    border-radius: var(--atl-border-radius);
+    font: var(--atl-text-sm); color: var(--atl-color-blue-100);
+    cursor: pointer; display: flex; align-items: center; gap: 6px;
+  }
+  .filter-btn:hover { background: #d0d9ff; border-color: #d0d9ff; }
+
+  /* Content switcher */
+  .content-switcher { display: flex; }
+  .cs-btn { height: 36px; padding: 0 12px; background: #F7F8FC; border: 1px solid var(--atl-color-grey-20); font: var(--atl-text-sm); color: var(--atl-color-grey-60); cursor: pointer; white-space: nowrap; position: relative; }
+  .cs-btn:first-child { border-radius: var(--atl-border-radius) 0 0 var(--atl-border-radius); }
+  .cs-btn:last-child { border-radius: 0 var(--atl-border-radius) var(--atl-border-radius) 0; margin-left: -1px; }
+  .cs-btn--active { border-color: var(--atl-color-blue-100); color: var(--atl-color-blue-100); font-weight: var(--atl-font-medium); z-index: 1; }
+
+  .filter-search {
+    height: 36px; border: 1px solid var(--atl-color-grey-20);
+    border-radius: var(--atl-border-radius); padding: 0 10px;
+    font: var(--atl-text-sm); color: var(--atl-color-grey-100);
+    background: #F7F8FC; width: 160px;
+  }
+  .filter-search::placeholder { color: var(--atl-color-grey-40); }
+  .filter-search:focus { outline: none; border-color: var(--atl-color-blue-60); }
+
+  .filter-select {
+    height: 36px; border: 1px solid var(--atl-color-grey-20);
+    border-radius: var(--atl-border-radius); padding: 0 28px 0 10px;
+    font: var(--atl-text-sm); color: var(--atl-color-grey-100);
+    background: #F7F8FC; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23818794' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 8px center; cursor: pointer;
+  }
+
+  .toggle-wrap { display: flex; align-items: center; gap: 6px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); white-space: nowrap; }
+  .toggle { width: 36px; height: 20px; background: var(--atl-color-grey-20); border-radius: 10px; position: relative; cursor: pointer; flex-shrink: 0; border: none; }
+  .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: var(--atl-color-white); border-radius: 50%; }
+  .icon-btn { width: 36px; height: 36px; background: none; border: none; border-radius: var(--atl-border-radius); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--atl-color-grey-100); }
+  .icon-btn:hover { background: var(--atl-color-grey-5); }
+
+  /* ── Content body & split section ────────────────── */
+  .content-body { flex: 1; display: flex; flex-direction: column; min-height: 0; background: #F7F8FC; padding: 0; }
+  .split-section { background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 4px; display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
+
+  /* ── Split view ───────────────────────────────────── */
+  .split { display: flex; flex: 1; min-height: 0; background: var(--atl-color-white); overflow: hidden; }
+
+  .list-panel { width: 50%; flex-shrink: 0; overflow-y: auto; }
+
+  .split-divider { width: 5px; flex-shrink: 0; background: var(--atl-color-grey-20); cursor: col-resize; transition: background 0.1s; }
+  .split-divider:hover, .split-divider--active { background: var(--atl-color-blue-60); }
+
+  .detail-panel { flex: 1; overflow-y: auto; padding: 28px 24px; }
+
+  /* ── List rows ────────────────────────────────────── */
+  .list-row {
+    padding: 24px 24px;
+    border-bottom: 1px solid var(--atl-color-grey-10);
+    cursor: pointer; background: var(--atl-color-white);
+    transition: background 0.1s;
+  }
+  .list-row:hover { background: #F2F5FF; }
+  .list-row--caution { background: #FFFCF5; }
+  .list-row--caution:hover { background: #F2F5FF; }
+  .list-row--selected { background: #F2F5FF !important; box-shadow: inset 0 0 0 2px var(--atl-color-blue-100); }
+  .list-row--selected .row-name,
+  .list-row--selected .row-type { font-weight: var(--atl-font-medium); }
+
+  .row-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+  .row-info { flex: 1; min-width: 0; }
+  .row-name-line { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .row-initials {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #D8D2E9;
+    display: inline-flex; align-items: center; justify-content: center;
+    font: 10px/1 "Rubik", sans-serif; font-weight: var(--atl-font-medium);
+    color: var(--atl-color-grey-100); flex-shrink: 0;
+  }
+  .row-name { font: var(--atl-text-sm); font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); }
+  .row-type { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .row-right { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+
+  .status-dot {
+    display: inline-flex; align-items: center; gap: 5px;
+    font: 12px/1 "Rubik", sans-serif; font-weight: var(--atl-font-normal);
+    color: var(--atl-color-grey-100); white-space: nowrap;
+  }
+  .status-dot::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .status-dot--error::before { background: var(--atl-color-red-100); }
+  .status-dot--warning::before { background: var(--atl-color-yellow-100); }
+  .status-dot--success::before { background: var(--atl-color-green-100); }
+
+  .badge-new {
+    display: inline-flex; align-items: center; height: 18px; padding: 0 6px;
+    background: var(--atl-color-blue-5); border: 1px solid var(--atl-color-blue-20);
+    border-radius: 99px; font: 11px/1 "Rubik", sans-serif;
+    color: var(--atl-color-blue-100); font-weight: var(--atl-font-medium);
+  }
+
+  .row-differanse { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+  .row-differanse-label { font: 12px/1 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); }
+  .diff-pill { display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 8px; border-radius: 99px; font: 12px/1 "Rubik", sans-serif; font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); border: 1px solid transparent; }
+  .diff-pill--negative { background: var(--atl-color-grey-5); border-color: var(--atl-color-grey-20); }
+  .diff-pill--zero { background: var(--atl-color-green-5); border-color: var(--atl-color-green-40); }
+  .differanse-amount { font-weight: var(--atl-font-medium); }
+  .differanse-amount--negative { color: var(--atl-color-grey-100); }
+  .differanse-amount--zero { color: var(--atl-color-green-100); }
+
+  .row-warning { display: flex; align-items: flex-start; gap: 6px; margin-top: 12px; font: var(--atl-text-sm); color: var(--atl-color-grey-80); line-height: 1.4; }
+  .row-warning-icon { color: var(--atl-color-grey-80); flex-shrink: 0; margin-top: 1px; }
+
+  .kebab-btn { width: 28px; height: 28px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: var(--atl-border-radius); color: var(--atl-color-grey-60); font-size: 16px; letter-spacing: 2px; }
+  .kebab-btn:hover { background: var(--atl-color-grey-10); }
+
+  /* ── Detail panel ─────────────────────────────────── */
+  .dp-header { margin-bottom: 16px; }
+  .dp-meta-chips { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .dp-chip { display: inline-flex; align-items: center; height: 24px; padding: 0 10px; background: var(--atl-color-grey-5); border: 1px solid var(--atl-color-grey-20); border-radius: 99px; font: 13px/1 "Rubik", sans-serif; color: var(--atl-color-grey-80); white-space: nowrap; }
+  .dp-sep { color: var(--atl-color-grey-40); }
+
+  .dp-employee { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+  .dp-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--atl-color-blue-10); display: flex; align-items: center; justify-content: center; font: 12px/1 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-blue-100); flex-shrink: 0; }
+  .dp-name { font: 20px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); cursor: pointer; }
+  .dp-type { font: 20px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-blue-100); }
+
+  /* ── Refusjoner section ─────────────────────────────── */
+  .section-title { font: var(--atl-text-lg); font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); margin-bottom: 10px; }
+
+  /* Refusjoner table */
+  .ref-table { width: 100%; border-collapse: collapse; font: 12px/1.4 "Rubik", sans-serif; margin-bottom: 0; }
+  .ref-table th { text-align: left; padding: 12px 10px; font: 12px/1 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); border-bottom: 1px solid var(--atl-color-grey-20); white-space: nowrap; background: #F2F5FF; }
+  .ref-table th:not(:first-child) { text-align: right; }
+  .ref-table th:last-child { text-align: center; width: 40px; }
+
+  .ref-table td { padding: 8px 10px; vertical-align: middle; border-bottom: 1px solid var(--atl-color-grey-10); color: var(--atl-color-grey-100); font-size: 12px; }
+  .ref-table td:not(:first-child) { text-align: right; }
+  .ref-table td:last-child { text-align: center; }
+
+  .ref-table tr:hover td { background: none; }
+  .ref-table .sum-row td { font: 14px/1.4 "Rubik", sans-serif; font-weight: var(--atl-font-medium); padding: 12px 10px; border-top: 1px solid var(--atl-color-grey-20); border-bottom: none; background: var(--atl-color-white); }
+
+  .nav-received { font: 12px/1.3 "Rubik", sans-serif; color: var(--atl-color-grey-60); margin-top: 2px; }
+
+  .delete-btn { background: none; border: none; cursor: pointer; color: var(--atl-color-grey-100); display: flex; align-items: center; justify-content: center; border-radius: var(--atl-border-radius); width: 28px; height: 28px; margin: 0 auto; }
+  .delete-btn:hover { background: #CED9FE; }
+
+  .table-wrap { border: 1px solid var(--atl-color-grey-20); border-radius: var(--atl-border-radius); overflow: hidden; margin-bottom: 16px; }
+
+  /* ── Status box ───────────────────────────────────── */
+  .status-box {
+    border: 1px solid var(--atl-color-grey-20);
+    border-radius: var(--atl-border-radius);
+    overflow: hidden;
+  }
+  .status-box-header { padding: 16px 20px 4px; font: var(--atl-text-lg); font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); display: flex; align-items: center; justify-content: space-between; }
+  .status-box-body { padding: 10px 20px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .status-row { display: flex; align-items: center; gap: 8px; }
+  .status-indicator { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .status-indicator--error { background: var(--atl-color-red-100); }
+  .status-indicator--warning { background: var(--atl-color-yellow-100); }
+  .status-indicator--success { background: var(--atl-color-green-100); }
+  .status-text { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+
+  .btn {
+    height: 36px; padding: 0 16px;
+    border-radius: var(--atl-border-radius); font: var(--atl-text-sm);
+    font-weight: var(--atl-font-normal); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid transparent; text-decoration: none;
+  }
+  .btn--primary { background: var(--atl-color-blue-100); color: var(--atl-color-white); border-color: var(--atl-color-blue-100); }
+  .btn--primary:hover { background: var(--atl-color-blue-80); }
+  .btn--secondary { background: var(--atl-color-white); color: var(--atl-color-grey-100); border-color: var(--atl-color-grey-20); }
+  .btn--secondary:hover { background: var(--atl-color-grey-5); }
+  .btn--tertiary { background: none; border-color: transparent; color: var(--atl-color-grey-60); }
+  .btn--tertiary:hover { background: var(--atl-color-grey-5); }
+  .btn--small { height: 30px; padding: 0 12px; font-size: 13px; }
+
+  /* checkmark icon inline */
+  .check-icon { color: var(--atl-color-green-100); display: inline-flex; align-items: center; }
+
+  /* ── Alert ────────────────────────────────────────── */
+  .alert { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: var(--atl-border-radius); border: 1px solid; margin-bottom: 24px; font: var(--atl-text-sm); }
+  .alert--warning { background: var(--atl-color-yellow-5); border-color: var(--atl-color-yellow-40); color: var(--atl-color-grey-100); }
+  .alert-icon { flex-shrink: 0; color: var(--atl-color-grey-80); margin-top: 1px; }
+  .alert-body { flex: 1; line-height: 1.5; }
+  .alert-link { color: var(--atl-color-blue-100); text-decoration: none; }
+  .alert-link:hover { text-decoration: underline; }
+  .alert-sparkle { color: var(--atl-color-blue-100); margin-left: 3px; font-size: 13px; }
+  .alert-close { flex-shrink: 0; background: none; border: none; cursor: pointer; color: var(--atl-color-grey-60); display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 3px; font-size: 16px; line-height: 1; padding: 0; }
+  .alert-close:hover { background: var(--atl-color-yellow-40); color: var(--atl-color-grey-100); }
+
+  /* ── Popover ──────────────────────────────────────── */
+  .popover-wrap { position: relative; display: inline-block; }
+  .popover {
+    position: fixed;
+    width: 268px;
+    background: var(--atl-color-white);
+    border: 1px solid var(--atl-color-grey-20);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+    padding: 16px;
+    z-index: 1000;
+    display: none;
+  }
+  .popover.popover--open { display: block; }
+  .popover::after {
+    content: '';
+    position: absolute;
+    bottom: -7px; left: 50%; transform: translateX(-50%) rotate(45deg);
+    width: 12px; height: 12px;
+    background: var(--atl-color-white);
+    border-right: 1px solid var(--atl-color-grey-20);
+    border-bottom: 1px solid var(--atl-color-grey-20);
+  }
+  .popover-title { font: var(--atl-text-sm); font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); margin-bottom: 8px; }
+  .popover-body { font: var(--atl-text-sm); color: var(--atl-color-grey-100); line-height: 1.5; margin-bottom: 12px; }
+  .popover-action { font: var(--atl-text-sm); color: var(--atl-color-blue-100); text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; }
+  .popover-action:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="tb-icon-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect y="2.5" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="7" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="11.5" width="16" height="1.5" rx="0.75" fill="currentColor"/></svg></button>
+      <span class="tb-logo">tripletex</span>
+      <div class="tb-sep"></div>
+      <div class="tb-company">
+        <span class="tb-company-badge">T</span>
+        <span class="tb-company-name">Tripletex AS</span>
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-search"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M9.5 9.5L12.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Søk</div>
+      <button class="tb-assistant">Assistent ✦</button>
+      <button class="tb-icon-btn" title="Favoritter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5 3.7.5-2.7 2.6.6 3.7L8 10.5l-3.1 1.8.6-3.7L3 5.5l3.7-.5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Last ned"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2.5v7M5.5 7l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Varsler"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 003.5 6v3L2 11h12l-1.5-2V6A4.5 4.5 0 008 1.5z" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      <button class="tb-icon-btn" title="Meldinger"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 13.5l1.5-2h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Hjelp"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 6.5a2 2 0 114 0c0 1.5-2 1.5-2 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Kunngjøringer"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1 3H13l-2.5 2 1 3L8 8.5 4.5 10l1-3L3 5h4L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Rapporter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5L13 5.5V14H3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 2v4h4M6 9h4M6 11.5h2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" style="width:28px;height:28px;background:var(--atl-color-grey-10);border-radius:50%;" title="Bruker"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+
+  <div class="shell-body">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <a class="nav-item" href="#"><span class="nav-icon" style="color:#f7c137;"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5l1.6 3.6 3.9.6-2.8 2.7.7 3.9L8 10.5l-3.4 1.8.7-3.9L2.5 5.7l3.9-.6L8 1.5z"/></svg></span>Favoritter</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 7.5l6-5 6 5V14H10.5v-4h-5v4H2V7.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Hjem</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Klient</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Timeliste</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8.5L2 13l1.5-4.5L2 4l11.5 4.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Reiser og utlegg</a>
+      <div class="nav-item nav-item--active"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Ferie og fravær</div>
+      <a class="nav-sub" href="fraværsoversikt.html"><span class="nav-bullet"></span>Fraværsoversikt</a>
+      <a class="nav-sub nav-sub--active" href="avstemming.html"><span class="nav-bullet"></span>Avstemming av refusjoner</a>
+      <div class="nav-sub"><span class="nav-bullet"></span>Inntektsmeldinger</div>
+      <div class="nav-sub"><span class="nav-bullet"></span>Rapporter og statistikk</div>
+      <div class="nav-sub"><span class="nav-bullet"></span>Innstillinger</div>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h8l2 2v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M10 2v3H5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Bilag</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="7" width="12" height="7" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M4 7V5M8 7V5M12 7V5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M1.5 5h13l-6.5-3L1.5 5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Bank</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></span>Regnskap</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 12V8M7 12V5M11 12V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Rapporter</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L2.5 5v6L8 14l5.5-3V5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 2v12M2.5 5L8 8l5.5-3" stroke="currentColor" stroke-width="1.3"/></svg></span>Prosjekt</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h10v13l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 7h5M5.5 9.5h5M5.5 5h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Faktura</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 13c0-2.5 2.2-4.5 5-4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="11.5" cy="10" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 8.5v1.5l1 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Kunde</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4.5" width="12" height="7.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.5v1M6.5 8.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Lønn</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2.5 2.5L11 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Oppgave</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5L13 5.5V14H3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 2v4h4" stroke="currentColor" stroke-width="1.3"/></svg></span>Dokument</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M7 4.5h2V7M9 7v2H7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Integrasjoner</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5.5 10.5h5M8 9v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Årsoppgjør</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 6V5a2.5 2.5 0 015 0v1" stroke="currentColor" stroke-width="1.3"/></svg></span>Selskap</a>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main-content">
+
+      <!-- Page header -->
+      <div class="page-header">
+        <h1 class="page-title">Avstemming av refusjoner</h1>
+        <p class="page-subtitle">Refusjonerer vises fortløpende ettersom du mottar oppgjørsrapporter fra NAV.</p>
+      </div>
+
+      <!-- Content body -->
+      <div class="content-body">
+        <div class="split-section">
+
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <div class="filter-bar-left">
+          <button class="filter-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Filter
+          </button>
+          <input class="filter-search" type="text" placeholder="Søk">
+          <div class="content-switcher">
+            <button class="cs-btn cs-btn--active">Alle</button>
+            <button class="cs-btn">Refusjonerer med differanse</button>
+          </div>
+          <select class="filter-select"><option>Alle ansatte</option></select>
+          <select class="filter-select"><option>Alle avdelinger</option></select>
+          <label class="toggle-wrap">
+            <button class="toggle"></button>
+            Skjul tidligere fravær
+          </label>
+        </div>
+        <div class="filter-bar-right">
+          <button class="icon-btn">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6.8 1.5h2.4l.3 1.4.9.4 1.2-.8 1.7 1.7-.8 1.2.4.9 1.4.3v2.4l-1.4.3-.4.9.8 1.2-1.7 1.7-1.2-.8-.9.4-.3 1.4H6.8l-.3-1.4-.9-.4-1.2.8-1.7-1.7.8-1.2-.4-.9-1.4-.3V6.8l1.4-.3.4-.9-.8-1.2 1.7-1.7 1.2.8.9-.4.3-1.4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Split view -->
+      <div class="split">
+
+        <!-- Left list -->
+        <div class="list-panel">
+
+          <!-- 1. Mottatt + negativ differanse -->
+          <div id="list-row-5" class="list-row list-row--caution" onclick="selectRow(this,'dp-5')">
+            <div class="row-top">
+              <div class="row-name-line row-info">
+                <span class="row-initials">SM</span>
+                <span class="row-name">Sofia Maurstad</span>
+                <span class="row-type">– Fraværsperiode</span>
+              </div>
+              <div class="row-right">
+                <span class="status-dot status-dot--success">Mottatt</span>
+              </div>
+            </div>
+            <div class="row-differanse">
+              <span class="row-differanse-label">Differanse:</span>
+              <span class="diff-pill diff-pill--negative">−19 000,00</span>
+            </div>
+            <div class="row-warning">
+              <span class="row-warning-icon">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2L1.5 12h11L7 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M7 6v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="10.5" r="0.5" fill="currentColor"/></svg>
+              </span>
+              Du har mottatt full refusjon fra NAV, men det er fortsatt en negativ differanse.
+            </div>
+          </div>
+
+          <!-- 2. Delvis mottatt + Ny -->
+          <div class="list-row list-row--selected" onclick="selectRow(this,'dp-3')">
+            <div class="row-top">
+              <div class="row-name-line row-info">
+                <span class="row-initials">JP</span>
+                <span class="row-name">Jakob Pettersen</span>
+                <span class="row-type">– Fraværsperiode</span>
+              </div>
+              <div class="row-right">
+                <span class="status-dot status-dot--warning">Delvis mottatt (Ny)</span>
+              </div>
+            </div>
+            <div class="row-differanse">
+              <span class="row-differanse-label">Differanse:</span>
+              <span class="diff-pill diff-pill--negative">−40 000,00</span>
+            </div>
+          </div>
+
+          <!-- 3a. Delvis mottatt -->
+          <div class="list-row" onclick="selectRow(this,'dp-2')">
+            <div class="row-top">
+              <div class="row-name-line row-info">
+                <span class="row-initials">IR</span>
+                <span class="row-name">Ingrid Reigstad</span>
+                <span class="row-type">– Foreldrepermisjon</span>
+              </div>
+              <div class="row-right">
+                <span class="status-dot status-dot--warning">Delvis mottatt</span>
+              </div>
+            </div>
+            <div class="row-differanse">
+              <span class="row-differanse-label">Differanse:</span>
+              <span class="diff-pill diff-pill--negative">−40 000,00</span>
+            </div>
+          </div>
+
+          <!-- 3b. Delvis mottatt -->
+          <div class="list-row" onclick="selectRow(this,'dp-8')">
+            <div class="row-top">
+              <div class="row-name-line row-info">
+                <span class="row-initials">EH</span>
+                <span class="row-name">Egil Hardenset</span>
+                <span class="row-type">– Foreldrepermisjon</span>
+              </div>
+              <div class="row-right">
+                <span class="status-dot status-dot--warning">Delvis mottatt</span>
+              </div>
+            </div>
+            <div class="row-differanse">
+              <span class="row-differanse-label">Differanse:</span>
+              <span class="diff-pill diff-pill--negative">−29 000,00</span>
+            </div>
+          </div>
+
+          <!-- 4. Ikke mottatt -->
+          <div class="list-row" onclick="selectRow(this,'dp-1')">
+            <div class="row-top">
+              <div class="row-name-line row-info">
+                <span class="row-initials">IR</span>
+                <span class="row-name">Ingrid Reigstad</span>
+                <span class="row-type">– Foreldrepermisjon</span>
+              </div>
+              <div class="row-right">
+                <span class="status-dot status-dot--warning">Ikke mottatt</span>
+              </div>
+            </div>
+            <div class="row-differanse">
+              <span class="row-differanse-label">Differanse:</span>
+              <span class="diff-pill diff-pill--negative">−59 000,00</span>
+            </div>
+          </div>
+
+          <!-- 5a. Mottatt, 0 differanse -->
+          <div id="list-mottatt-zero" class="list-row" onclick="selectRow(this,'dp-4')">
+            <div class="row-top">
+              <div class="row-name-line row-info">
+                <span class="row-initials">EH</span>
+                <span class="row-name">Egil Hagiestad</span>
+                <span class="row-type">– Foreldrepermisjon</span>
+              </div>
+              <div class="row-right">
+                <span class="status-dot status-dot--success">Mottatt</span>
+              </div>
+            </div>
+            <div class="row-differanse">
+              <span class="row-differanse-label">Differanse:</span>
+              <span class="diff-pill diff-pill--zero"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>0,00</span>
+            </div>
+          </div>
+
+          <!-- 5b. Mottatt, 0 differanse -->
+          <div class="list-row" onclick="selectRow(this,'dp-6')">
+            <div class="row-top">
+              <div class="row-name-line row-info">
+                <span class="row-initials">EH</span>
+                <span class="row-name">Egil Hagiestad</span>
+                <span class="row-type">– Foreldrepermisjon</span>
+              </div>
+              <div class="row-right">
+                <span class="status-dot status-dot--success">Mottatt</span>
+              </div>
+            </div>
+            <div class="row-differanse">
+              <span class="row-differanse-label">Differanse:</span>
+              <span class="diff-pill diff-pill--zero"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>0,00</span>
+            </div>
+          </div>
+
+          <!-- 5c. Mottatt, 0 differanse -->
+          <div class="list-row" onclick="selectRow(this,'dp-7')">
+            <div class="row-top">
+              <div class="row-name-line row-info">
+                <span class="row-initials">JP</span>
+                <span class="row-name">Jakob Pettersen</span>
+                <span class="row-type">– Fraværsperiode</span>
+              </div>
+              <div class="row-right">
+                <span class="status-dot status-dot--success">Mottatt</span>
+              </div>
+            </div>
+            <div class="row-differanse">
+              <span class="row-differanse-label">Differanse:</span>
+              <span class="diff-pill diff-pill--zero"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>0,00</span>
+            </div>
+          </div>
+
+        </div><!-- /list-panel -->
+
+        <div id="split-divider" class="split-divider"></div>
+
+        <!-- Detail panel -->
+        <div class="detail-panel">
+
+          <!-- DP 1: Ingrid – Ikke mottatt -->
+          <div id="dp-1" style="display:none">
+            <div class="dp-employee">
+              <div class="dp-avatar">IR</div>
+              <div><span class="dp-name">Ingrid Reigstad</span><span class="dp-type"> – Foreldrepermisjon</span></div>
+            </div>
+            <div class="section-title">Refusjoner</div>
+            <div class="table-wrap">
+              <table class="ref-table">
+                <thead><tr><th>Lønnsperiode</th><th>Utbetalt lønn</th><th>Mottatt fra NAV</th><th>Status på refusjon</th><th>Differanse</th><th></th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>01.08.26–31.08.26</td>
+                    <td>59 000,00</td>
+                    <td>0,00</td>
+                    <td><span class="status-dot status-dot--warning">Ikke mottatt</span></td>
+                    <td>−59 000,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr class="sum-row">
+                    <td>Sum</td><td>59 000,00</td><td>0,00</td><td></td><td>−59 000,00</td><td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="status-box" id="sb-1">
+              <div class="status-box-header">Status</div>
+              <div class="status-box-body" id="sb-body-1">
+                <div class="status-row">
+                  <div class="status-indicator status-indicator--warning"></div>
+                  <span class="status-text">Mangler 1 refusjon</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DP 2: Ingrid – Delvis mottatt -->
+          <div id="dp-2" style="display:none">
+            <div class="dp-employee">
+              <div class="dp-avatar">IR</div>
+              <div><span class="dp-name">Ingrid Reigstad</span><span class="dp-type"> – Foreldrepermisjon</span></div>
+            </div>
+            <div class="section-title">Refusjoner</div>
+            <div class="table-wrap">
+              <table class="ref-table">
+                <thead><tr><th>Lønnsperiode</th><th>Utbetalt lønn</th><th>Mottatt fra NAV</th><th>Status på refusjon</th><th>Differanse</th><th></th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>01.09.26–30.09.26</td>
+                    <td>40 000,00</td>
+                    <td><div>20 000,00</div><div class="nav-received">Mottatt 15.10.26</div></td>
+                    <td><span class="status-dot status-dot--success">Mottatt</span></td>
+                    <td>−20 000,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr>
+                    <td>01.10.26–31.10.26</td>
+                    <td>40 000,00</td>
+                    <td>0,00</td>
+                    <td><span class="status-dot status-dot--warning">Ikke mottatt</span></td>
+                    <td>−40 000,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr class="sum-row">
+                    <td>Sum</td><td>80 000,00</td><td>20 000,00</td><td></td><td>−60 000,00</td><td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="status-box">
+              <div class="status-box-header">Status</div>
+              <div class="status-box-body" id="sb-body-2">
+                <div class="status-row"><div class="status-indicator status-indicator--warning"></div><span class="status-text">Mangler 1 refusjon</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DP 3: Jakob – Delvis mottatt (Ny) — DEFAULT VISIBLE -->
+          <div id="dp-3">
+            <div class="dp-employee">
+              <div class="dp-avatar">JP</div>
+              <div><span class="dp-name">Jakob Pettersen</span><span class="dp-type"> – Fraværsperiode</span></div>
+            </div>
+            <div class="section-title">Refusjoner</div>
+            <div class="table-wrap">
+              <table class="ref-table">
+                <thead>
+                  <tr>
+                    <th>Lønnsperiode</th>
+                    <th>Utbetalt lønn</th>
+                    <th>Mottatt fra NAV</th>
+                    <th>Status på refusjon</th>
+                    <th>Differanse</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>20.09.26–19.10.26</td>
+                    <td>40 000,00</td>
+                    <td>
+                      <div>40 000,00</div>
+                      <div class="nav-received">Mottatt 31.10.26</div>
+                    </td>
+                    <td><span class="status-dot status-dot--success">Mottatt</span></td>
+                    <td>0,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr>
+                    <td>20.10.26–19.11.26</td>
+                    <td>40 000,00</td>
+                    <td>
+                      <div>40 000,00</div>
+                      <div class="nav-received">Mottatt 30.11.26</div>
+                    </td>
+                    <td>
+                      <span class="status-dot status-dot--success">Mottatt (Ny)</span>
+                    </td>
+                    <td>0,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr>
+                    <td>20.11.26–19.12.26</td>
+                    <td>40 000,00</td>
+                    <td>0,00</td>
+                    <td><span class="status-dot status-dot--warning">Ikke mottatt</span></td>
+                    <td>−40 000,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr class="sum-row">
+                    <td>Sum</td>
+                    <td>120 000,00</td>
+                    <td>80 000,00</td>
+                    <td></td>
+                    <td>−40 000,00</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Status box -->
+            <div class="status-box">
+              <div class="status-box-header">Status</div>
+              <div class="status-box-body" id="sb-body-3">
+                <div class="status-row">
+                  <div class="status-indicator status-indicator--warning"></div>
+                  <span class="status-text">Mangler 1 refusjon</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DP 4: Egil H – Mottatt, 0 -->
+          <div id="dp-4" style="display:none">
+
+            <div class="dp-employee"><div class="dp-avatar">EH</div><div><span class="dp-name">Egil Hagiestad</span><span class="dp-type"> – Foreldrepermisjon</span></div></div>
+            <div class="section-title">Refusjoner</div>
+            <div class="table-wrap">
+              <table class="ref-table">
+                <thead><tr><th>Lønnsperiode</th><th>Utbetalt lønn</th><th>Mottatt fra NAV</th><th>Status på refusjon</th><th>Differanse</th><th></th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>01.11.26–30.11.26</td>
+                    <td>40 000,00</td>
+                    <td><div>40 000,00</div><div class="nav-received">Mottatt 05.12.26</div></td>
+                    <td><span class="status-dot status-dot--success">Mottatt</span></td>
+                    <td>0,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr class="sum-row"><td>Sum</td><td>40 000,00</td><td>40 000,00</td><td></td><td>0,00</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="status-box">
+              <div class="status-box-header">Status</div>
+              <div class="status-box-body">
+                <div class="status-row"><div class="status-indicator status-indicator--success"></div><span class="status-text">Alle refusjoner er mottatt, ingen differanse</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DP 5: Sofia M – Mottatt, −19 000 (advarsel) -->
+          <div id="dp-5" style="display:none">
+
+            <div class="dp-employee"><div class="dp-avatar">SM</div><div><span class="dp-name">Sofia Maurstad</span><span class="dp-type"> – Fraværsperiode</span></div></div>
+
+            <div class="alert alert--warning" id="dp5-alert">
+              <div class="alert-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="5" r="0.75" fill="currentColor"/></svg>
+              </div>
+              <div class="alert-body">
+                Du har mottatt full refusjon fra NAV, men det er fortsatt en differanse.
+                <span class="popover-wrap">
+                  <a href="#" class="alert-link" onclick="visPopover(event,'dp5-popover')">Se forslag til årsak</a><span class="alert-sparkle">✦</span>
+                  <div class="popover" id="dp5-popover">
+                    <div class="popover-title">Differansen kan skyldes lønn over 6G</div>
+                    <div class="popover-body">NAV dekker kun opp til 6G og Sofia Maurstad har høyere lønn enn dette.</div>
+                    <button class="popover-action" onclick="ignorer('sb-body-5'); closePopover('dp5-popover')">Ignorer differanse</button>
+                  </div>
+                </span>
+              </div>
+              <button class="alert-close" onclick="document.getElementById('dp5-alert').style.display='none'" title="Lukk">×</button>
+            </div>
+
+            <div class="section-title">Refusjoner</div>
+            <div class="table-wrap">
+              <table class="ref-table">
+                <thead><tr><th>Lønnsperiode</th><th>Utbetalt lønn</th><th>Mottatt fra NAV</th><th>Status på refusjon</th><th>Differanse</th><th></th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>01.08.26–31.08.26</td>
+                    <td>38 000,00</td>
+                    <td><div>19 000,00</div><div class="nav-received">Mottatt 10.09.26</div></td>
+                    <td><span class="status-dot status-dot--success">Mottatt</span></td>
+                    <td>−19 000,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr class="sum-row"><td>Sum</td><td>38 000,00</td><td>19 000,00</td><td></td><td>−19 000,00</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="status-box">
+              <div class="status-box-header">
+                Status
+                <button id="ignorer-btn" class="btn btn--primary btn--small" onclick="ignorer('sb-body-5')">Ignorer differansen</button>
+              </div>
+              <div class="status-box-body" id="sb-body-5">
+                <div class="status-row"><div class="status-indicator status-indicator--warning"></div><span class="status-text">Alle refusjoner er mottatt, men det er en differanse</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DP 6: Egil H #2 – Mottatt, 0 -->
+          <div id="dp-6" style="display:none">
+
+            <div class="dp-employee"><div class="dp-avatar">EH</div><div><span class="dp-name">Egil Hagiestad</span><span class="dp-type"> – Foreldrepermisjon</span></div></div>
+            <div class="section-title">Refusjoner</div>
+            <div class="table-wrap">
+              <table class="ref-table">
+                <thead><tr><th>Lønnsperiode</th><th>Utbetalt lønn</th><th>Mottatt fra NAV</th><th>Status på refusjon</th><th>Differanse</th><th></th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>01.10.26–31.10.26</td>
+                    <td>42 000,00</td>
+                    <td><div>42 000,00</div><div class="nav-received">Mottatt 08.11.26</div></td>
+                    <td><span class="status-dot status-dot--success">Mottatt</span></td>
+                    <td>0,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr class="sum-row"><td>Sum</td><td>42 000,00</td><td>42 000,00</td><td></td><td>0,00</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="status-box">
+              <div class="status-box-header">Status</div>
+              <div class="status-box-body"><div class="status-row"><div class="status-indicator status-indicator--success"></div><span class="status-text">Alle refusjoner er mottatt, ingen differanse</span></div></div>
+            </div>
+          </div>
+
+          <!-- DP 7: Jakob #2 – Mottatt, −19 000 -->
+          <div id="dp-7" style="display:none">
+
+            <div class="dp-employee"><div class="dp-avatar">JP</div><div><span class="dp-name">Jakob Pettersen</span><span class="dp-type"> – Fraværsperiode</span></div></div>
+            <div class="section-title">Refusjoner</div>
+            <div class="table-wrap">
+              <table class="ref-table">
+                <thead><tr><th>Lønnsperiode</th><th>Utbetalt lønn</th><th>Mottatt fra NAV</th><th>Status på refusjon</th><th>Differanse</th><th></th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>01.09.26–30.09.26</td>
+                    <td>40 000,00</td>
+                    <td><div>40 000,00</div><div class="nav-received">Mottatt 14.10.26</div></td>
+                    <td><span class="status-dot status-dot--success">Mottatt</span></td>
+                    <td>0,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr class="sum-row"><td>Sum</td><td>40 000,00</td><td>40 000,00</td><td></td><td>0,00</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="status-box">
+              <div class="status-box-header">Status</div>
+              <div class="status-box-body"><div class="status-row"><div class="status-indicator status-indicator--success"></div><span class="status-text">Alle refusjoner er mottatt, ingen differanse</span></div></div>
+            </div>
+          </div>
+
+          <!-- DP 8: Egil Hardenset – Delvis mottatt -->
+          <div id="dp-8" style="display:none">
+
+            <div class="dp-employee"><div class="dp-avatar">EH</div><div><span class="dp-name">Egil Hardenset</span><span class="dp-type"> – Foreldrepermisjon</span></div></div>
+            <div class="section-title">Refusjoner</div>
+            <div class="table-wrap">
+              <table class="ref-table">
+                <thead><tr><th>Lønnsperiode</th><th>Utbetalt lønn</th><th>Mottatt fra NAV</th><th>Status på refusjon</th><th>Differanse</th><th></th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>01.09.26–30.09.26</td>
+                    <td>40 000,00</td>
+                    <td><div>40 000,00</div><div class="nav-received">Mottatt 12.10.26</div></td>
+                    <td><span class="status-dot status-dot--success">Mottatt</span></td>
+                    <td>0,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr>
+                    <td>01.10.26–31.10.26</td>
+                    <td>29 000,00</td>
+                    <td>0,00</td>
+                    <td><span class="status-dot status-dot--warning">Ikke mottatt</span></td>
+                    <td>−29 000,00</td>
+                    <td><button class="delete-btn"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+                  </tr>
+                  <tr class="sum-row"><td>Sum</td><td>69 000,00</td><td>40 000,00</td><td></td><td>−29 000,00</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="status-box">
+              <div class="status-box-header">Status</div>
+              <div class="status-box-body" id="sb-body-8"><div class="status-row"><div class="status-indicator status-indicator--warning"></div><span class="status-text">Mangler 1 refusjon</span></div></div>
+            </div>
+          </div>
+
+        </div><!-- /detail-panel -->
+      </div><!-- /split -->
+        </div><!-- /split-section -->
+      </div><!-- /content-body -->
+
+    </div><!-- /main-content -->
+  </div><!-- /shell-body -->
+</div><!-- /shell -->
+
+<script>
+  function visPopover(e, id) {
+    e.preventDefault();
+    e.stopPropagation();
+    const pop = document.getElementById(id);
+    if (!pop) return;
+    const isOpen = pop.classList.contains('popover--open');
+    document.querySelectorAll('.popover--open').forEach(p => p.classList.remove('popover--open'));
+    if (!isOpen) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const popW = 268;
+      let left = rect.left + rect.width / 2 - popW / 2;
+      left = Math.max(8, Math.min(left, window.innerWidth - popW - 8));
+      pop.style.left = left + 'px';
+      pop.style.top = (rect.top - 12) + 'px';
+      pop.style.transform = 'translateY(-100%)';
+      pop.classList.add('popover--open');
+    }
+  }
+  function closePopover(id) {
+    const pop = document.getElementById(id);
+    if (pop) pop.classList.remove('popover--open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.popover-wrap') && !e.target.closest('.popover')) {
+      document.querySelectorAll('.popover--open').forEach(p => p.classList.remove('popover--open'));
+    }
+  });
+
+  // Draggable split divider
+  const divider = document.getElementById('split-divider');
+  const splitEl = divider.parentElement;
+  const listPanel = splitEl.querySelector('.list-panel');
+  let dragging = false, startX = 0, startW = 0;
+  divider.addEventListener('mousedown', e => {
+    dragging = true; startX = e.clientX; startW = listPanel.offsetWidth;
+    divider.classList.add('split-divider--active');
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'col-resize';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const newW = Math.max(220, Math.min(splitEl.offsetWidth - 220, startW + e.clientX - startX));
+    listPanel.style.width = newW + 'px';
+    listPanel.style.flex = 'none';
+  });
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    divider.classList.remove('split-divider--active');
+    document.body.style.userSelect = '';
+    document.body.style.cursor = '';
+  });
+
+  const allDPs = ['dp-1','dp-2','dp-3','dp-4','dp-5','dp-6','dp-7','dp-8'];
+
+  function selectRow(rowEl, dpId) {
+    document.querySelectorAll('.list-row').forEach(r => r.classList.remove('list-row--selected'));
+    rowEl.classList.add('list-row--selected');
+    allDPs.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = id === dpId ? '' : 'none';
+    });
+  }
+
+  function ignorer(bodyId) {
+    const body = document.getElementById(bodyId);
+    if (!body) return;
+    const btn = document.getElementById('ignorer-btn');
+    if (btn) btn.style.display = 'none';
+    body.innerHTML = `
+      <div class="status-row">
+        <div class="status-indicator status-indicator--success"></div>
+        <span class="status-text">Differansen er ignorert</span>
+      </div>
+      <div><button class="btn btn--tertiary btn--small" onclick="angre('${bodyId}')">Angre</button></div>
+    `;
+    const alert = document.getElementById('dp5-alert');
+    if (alert) alert.style.display = 'none';
+    closePopover('dp5-popover');
+    const listRow = document.getElementById('list-row-5');
+    if (listRow) {
+      listRow.classList.remove('list-row--caution');
+      const warning = listRow.querySelector('.row-warning');
+      if (warning) warning.remove();
+      const pill = listRow.querySelector('.diff-pill');
+      if (pill) {
+        pill.className = 'diff-pill diff-pill--zero';
+        pill.innerHTML = `<svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>−19 000,00`;
+      }
+      const anchor = document.getElementById('list-mottatt-zero');
+      anchor.parentElement.insertBefore(listRow, anchor);
+    }
+  }
+
+  function angre(bodyId) {
+    const body = document.getElementById(bodyId);
+    if (!body) return;
+    const btn = document.getElementById('ignorer-btn');
+    if (btn) btn.style.display = '';
+    body.innerHTML = `
+      <div class="status-row">
+        <div class="status-indicator status-indicator--warning"></div>
+        <span class="status-text">Alle refusjoner er mottatt, men det er en differanse</span>
+      </div>
+    `;
+    const listRow = document.getElementById('list-row-5');
+    if (listRow) {
+      listRow.classList.add('list-row--caution');
+      const pill = listRow.querySelector('.diff-pill');
+      if (pill) {
+        pill.className = 'diff-pill diff-pill--negative';
+        pill.innerHTML = '−19 000,00';
+      }
+      const warningDiv = document.createElement('div');
+      warningDiv.className = 'row-warning';
+      warningDiv.innerHTML = `<span class="row-warning-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2L1.5 12h11L7 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M7 6v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="10.5" r="0.5" fill="currentColor"/></svg></span>Du har mottatt full refusjon fra NAV, men det er fortsatt en negativ differanse.`;
+      listRow.appendChild(warningDiv);
+      listRow.parentElement.insertBefore(listRow, listRow.parentElement.firstChild);
+      const alert = document.getElementById('dp5-alert');
+      if (alert) alert.style.display = '';
+    }
+  }
+</script>
+
+</body>
+</html>

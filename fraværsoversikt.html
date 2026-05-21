@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fraværsoversikt – Tripletex</title>
+<link rel="stylesheet" href="https://cdn.tripletex.no/google-fonts/rubik-400-500-800.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --atl-color-white: #ffffff;
+    --atl-color-bg: #f7f8fc;
+    --atl-color-blue-5: #f2f5ff;
+    --atl-color-blue-10: #e6ebff;
+    --atl-color-blue-20: #ced9fe;
+    --atl-color-blue-60: #6c8dfc;
+    --atl-color-blue-80: #3b67fb;
+    --atl-color-blue-100: #0a41fa;
+    --atl-color-grey-5: #f4f5f6;
+    --atl-color-grey-10: #e9eaed;
+    --atl-color-grey-20: #d5d7db;
+    --atl-color-grey-40: #abafb7;
+    --atl-color-grey-60: #818794;
+    --atl-color-grey-80: #51596a;
+    --atl-color-grey-100: #2e384d;
+    --atl-color-green-5: #f4fbf4;
+    --atl-color-green-40: #addeab;
+    --atl-color-green-80: #5bbc57;
+    --atl-color-green-100: #33ac2e;
+    --atl-color-red-5: #fef4f5;
+    --atl-color-red-40: #f6aeb4;
+    --atl-color-red-100: #e83645;
+    --atl-color-yellow-5: #fffcf5;
+    --atl-color-yellow-10: #fff9ea;
+    --atl-color-yellow-40: #fce6af;
+    --atl-color-yellow-100: #f7c137;
+    --atl-border-radius: 4px;
+    --atl-font-normal: 400;
+    --atl-font-medium: 500;
+    --atl-text-sm: 14px/20px "Rubik", sans-serif;
+    --atl-text-lg: 16px/1.3 "Rubik", sans-serif;
+  }
+
+  body {
+    font: var(--atl-text-sm);
+    font-weight: var(--atl-font-normal);
+    color: var(--atl-color-grey-100);
+    background: var(--atl-color-bg);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── App shell ────────────────────────────────────── */
+  .shell { display: flex; flex-direction: column; height: 100vh; }
+
+  /* ── Topbar ───────────────────────────────────────── */
+  .topbar { height: 48px; background: #D8EAEB; display: flex; align-items: center; padding: 0 8px 0 12px; gap: 0; flex-shrink: 0; z-index: 100; }
+  .tb-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+  .tb-icon-btn { width: 32px; height: 32px; background: none; border: none; cursor: default; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--atl-color-grey-100); flex-shrink: 0; }
+  .tb-icon-btn svg { width: 17px; height: 17px; }
+  .tb-logo { font: 500 17px/1 "Rubik", sans-serif; color: var(--atl-color-grey-100); letter-spacing: -0.5px; flex-shrink: 0; }
+  .tb-sep { width: 1px; height: 18px; background: var(--atl-color-grey-20); flex-shrink: 0; margin: 0 4px; }
+  .tb-company { display: flex; align-items: center; gap: 6px; }
+  .tb-company-badge { width: 22px; height: 22px; border-radius: 50%; background: var(--atl-color-blue-100); color: #fff; font: 600 11px/1 "Rubik", sans-serif; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tb-company-name { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .tb-right { display: flex; align-items: center; gap: 2px; }
+  .tb-search { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 99px; font: var(--atl-text-sm); color: var(--atl-color-grey-60); width: 128px; margin-right: 6px; cursor: default; flex-shrink: 0; }
+  .tb-assistant { height: 30px; padding: 0 10px; background: #E9F5F5; border: none; border-radius: 4px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); cursor: default; display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; margin-right: 4px; }
+
+  .shell-body { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ──────────────────────────────────────── */
+  .sidebar { width: 222px; background: #F7F8FC; border-right: 1px solid var(--atl-color-grey-10); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; padding: 4px 0; }
+  .nav-item { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; margin: 1px 6px; border-radius: 5px; font: var(--atl-text-sm); color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; overflow: hidden; }
+  .nav-item:hover { background: var(--atl-color-grey-5); color: var(--atl-color-grey-100); }
+  .nav-item--active { background: transparent; color: var(--atl-color-grey-100); font-weight: var(--atl-font-normal); }
+  .nav-icon { width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: inherit; }
+  .nav-item--active .nav-icon { width: 24px; height: 24px; background: var(--atl-color-blue-100); border-radius: 5px; color: #fff; }
+  .nav-sub { display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 10px 0 34px; margin: 0 6px; border-radius: 5px; font: 12px/1 "Rubik", sans-serif; color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; }
+  .nav-sub:hover { background: var(--atl-color-grey-5); color: var(--atl-color-grey-100); }
+  .nav-sub--active { color: var(--atl-color-grey-100); font-weight: var(--atl-font-medium); }
+  .nav-bullet { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  /* ── Main content area ────────────────────────────── */
+  .main-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+  /* ── Page ─────────────────────────────────────────── */
+  .page { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 28px 16px 16px; gap: 28px; }
+
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    flex-shrink: 0;
+  }
+  .page-title { font: 24px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); }
+
+  .page-actions { display: flex; gap: 8px; }
+
+  .btn {
+    height: 36px;
+    padding: 0 16px;
+    border-radius: var(--atl-border-radius);
+    font: var(--atl-text-sm);
+    font-weight: var(--atl-font-normal);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid transparent;
+    text-decoration: none;
+  }
+  .btn--primary { background: var(--atl-color-blue-100); color: var(--atl-color-white); border-color: var(--atl-color-blue-100); }
+  .btn--primary:hover { background: var(--atl-color-blue-80); border-color: var(--atl-color-blue-80); }
+  .btn--secondary { background: var(--atl-color-white); color: var(--atl-color-grey-100); border-color: var(--atl-color-grey-20); }
+  .btn--secondary:hover { background: var(--atl-color-grey-5); }
+  .btn--tertiary { background: none; border: none; color: var(--atl-color-blue-100); }
+  .btn--tertiary:hover { background: var(--atl-color-blue-5); }
+  .btn--small { height: 30px; padding: 0 10px; font-size: 13px; }
+
+  /* ── Tabs ─────────────────────────────────────────── */
+  .tabs { display: flex; padding: 0; gap: 0; margin: 0; }
+  .tab { padding: 8px 10px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+  .tab:first-child { padding-left: 0; }
+  .tab--active { font-weight: var(--atl-font-medium); }
+  .tab-label { border-bottom: 3px solid #E6EBFF; padding-bottom: 5px; display: inline-block; }
+  .tab--active .tab-label { border-bottom-color: var(--atl-color-blue-100); }
+
+  /* ── Content body ─────────────────────────────────── */
+  .content-body { flex: 1; display: flex; flex-direction: column; min-height: 0; background: #F7F8FC; padding: 0; }
+  .split-section { background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 4px; display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
+
+  /* ── Filter bar ───────────────────────────────────── */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--atl-color-white);
+    border-bottom: 1px solid var(--atl-color-grey-20);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+  .filter-bar-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; flex-wrap: wrap; }
+  .filter-bar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+  /* Filter-knapp: alltid blå */
+  .filter-btn {
+    height: 36px;
+    padding: 0 12px;
+    background: #E6EBFF;
+    border: 1px solid #E6EBFF;
+    border-radius: var(--atl-border-radius);
+    font: var(--atl-text-sm);
+    color: var(--atl-color-blue-100);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .filter-btn:hover { background: #d0d9ff; border-color: #d0d9ff; }
+
+  /* Content switcher (Alle / Krever handling) */
+  .content-switcher { display: flex; }
+  .cs-btn {
+    height: 36px;
+    padding: 0 12px;
+    background: #F7F8FC;
+    border: 1px solid var(--atl-color-grey-20);
+    font: var(--atl-text-sm);
+    color: var(--atl-color-grey-60);
+    cursor: pointer;
+    white-space: nowrap;
+    position: relative;
+  }
+  .cs-btn:first-child { border-radius: var(--atl-border-radius) 0 0 var(--atl-border-radius); }
+  .cs-btn:last-child { border-radius: 0 var(--atl-border-radius) var(--atl-border-radius) 0; margin-left: -1px; }
+  .cs-btn--active {
+    border-color: var(--atl-color-blue-100);
+    color: var(--atl-color-blue-100);
+    font-weight: var(--atl-font-medium);
+    z-index: 1;
+  }
+
+  .filter-search {
+    height: 36px;
+    border: 1px solid var(--atl-color-grey-20);
+    border-radius: var(--atl-border-radius);
+    padding: 0 10px;
+    font: var(--atl-text-sm);
+    color: var(--atl-color-grey-100);
+    background: #F7F8FC;
+    width: 180px;
+  }
+  .filter-search::placeholder { color: var(--atl-color-grey-40); }
+  .filter-search:focus { outline: none; border-color: var(--atl-color-blue-60); }
+
+  .filter-select {
+    height: 36px;
+    border: 1px solid var(--atl-color-grey-20);
+    border-radius: var(--atl-border-radius);
+    padding: 0 28px 0 10px;
+    font: var(--atl-text-sm);
+    color: var(--atl-color-grey-100);
+    background: #F7F8FC;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23818794' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    cursor: pointer;
+  }
+
+  .toggle-wrap { display: flex; align-items: center; gap: 6px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); white-space: nowrap; }
+  .toggle {
+    width: 36px; height: 20px;
+    background: var(--atl-color-blue-100);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    border: none;
+  }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 18px;
+    width: 16px; height: 16px;
+    background: var(--atl-color-white);
+    border-radius: 50%;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    background: none;
+    border: none;
+    border-radius: var(--atl-border-radius);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--atl-color-grey-100);
+  }
+  .icon-btn:hover { background: var(--atl-color-grey-5); }
+
+  /* ── Split view ───────────────────────────────────── */
+  .split { display: flex; flex: 1; min-height: 0; background: var(--atl-color-white); overflow: hidden; }
+
+  .list-panel { width: 50%; flex-shrink: 0; overflow-y: auto; }
+
+  .split-divider { width: 5px; flex-shrink: 0; background: var(--atl-color-grey-20); cursor: col-resize; transition: background 0.1s; }
+  .split-divider:hover, .split-divider--active { background: var(--atl-color-blue-60); }
+
+  .detail-panel { flex: 1; overflow-y: auto; background: var(--atl-color-white); padding: 28px 20px; }
+
+  /* ── List rows ────────────────────────────────────── */
+  .list-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 22px 20px;
+    border-bottom: 1px solid var(--atl-color-grey-10);
+    cursor: pointer;
+    background: var(--atl-color-white);
+    transition: background 0.1s;
+  }
+  .list-row:hover { background: #F2F5FF; }
+  .list-row--selected { background: #F2F5FF !important; box-shadow: inset 0 0 0 2px var(--atl-color-blue-100); }
+  .list-row--selected .row-name,
+  .list-row--selected .row-type { font-weight: var(--atl-font-medium); }
+
+  .row-avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #D8D2E9;
+    display: flex; align-items: center; justify-content: center;
+    font: 11px/1 "Rubik", sans-serif;
+    font-weight: var(--atl-font-medium);
+    color: var(--atl-color-grey-100);
+    flex-shrink: 0;
+  }
+
+  .row-content { flex: 1; min-width: 0; }
+  .row-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: space-between; }
+  .row-name { font: var(--atl-text-sm); font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); }
+  .row-type { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .row-meta { font: var(--atl-text-sm); color: var(--atl-color-grey-60); margin-top: 8px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .row-right { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+
+  /* Status badges */
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font: 12px/1 "Rubik", sans-serif;
+    font-weight: var(--atl-font-normal);
+    color: var(--atl-color-grey-100);
+    white-space: nowrap;
+  }
+  .status-dot::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .status-dot--error::before { background: var(--atl-color-red-100); }
+  .status-dot--warning::before { background: var(--atl-color-yellow-100); }
+  .status-dot--success::before { background: var(--atl-color-green-100); }
+  .status-dot--info::before { background: var(--atl-color-blue-100); }
+  .status-dot--neutral::before { background: var(--atl-color-grey-60); }
+
+  /* Duration chip */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    background: var(--atl-color-grey-5);
+    border: 1px solid var(--atl-color-grey-20);
+    border-radius: 99px;
+    font: 12px/1 "Rubik", sans-serif;
+    color: var(--atl-color-grey-100);
+    white-space: nowrap;
+  }
+  .chip--blue { background: var(--atl-color-blue-5); border-color: var(--atl-color-blue-20); color: var(--atl-color-blue-100); }
+  .chip--yellow { background: var(--atl-color-yellow-5); border-color: var(--atl-color-yellow-40); color: var(--atl-color-grey-100); }
+
+  .kebab-btn {
+    width: 28px; height: 28px;
+    background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--atl-border-radius);
+    color: var(--atl-color-grey-60);
+    font-size: 16px; letter-spacing: 2px;
+    flex-shrink: 0;
+  }
+  .kebab-btn:hover { background: var(--atl-color-grey-10); }
+
+  /* ── Detail panel content ─────────────────────────── */
+  .dp-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .dp-meta-text { font: 13px/1 "Rubik", sans-serif; color: var(--atl-color-grey-100); white-space: nowrap; }
+  .dp-meta-text--icon { display: inline-flex; align-items: center; gap: 4px; }
+  .dp-sep { color: var(--atl-color-grey-40); font-size: 12px; }
+  .dp-chip {
+    display: inline-flex; align-items: center;
+    height: 24px; padding: 0 10px;
+    background: var(--atl-color-grey-5);
+    border: 1px solid var(--atl-color-grey-20);
+    border-radius: 99px;
+    font: 13px/1 "Rubik", sans-serif;
+    color: var(--atl-color-grey-80);
+    white-space: nowrap;
+  }
+
+  .dp-employee { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+  .dp-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--atl-color-blue-10); display: flex; align-items: center; justify-content: center; font: 13px/1 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-blue-100); flex-shrink: 0; }
+  .dp-name { font: 20px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); cursor: pointer; }
+  .dp-type { font: 20px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); }
+
+  /* Inner cards */
+  .inner-card { background: var(--atl-color-white); border: 1px solid var(--atl-color-grey-20); border-radius: var(--atl-border-radius); overflow: hidden; margin-bottom: 12px; }
+  .inner-card-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 14px; }
+  .inner-card-title { font: 17px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); }
+  .inner-card-body { padding: 4px 20px 20px; }
+
+  /* Fravær i denne perioden */
+  .period-card { background: var(--atl-color-white); border: 1px solid var(--atl-color-grey-20); border-radius: var(--atl-border-radius); overflow: hidden; margin-bottom: 12px; }
+  .period-card-header { padding: 18px 20px 14px; }
+  .period-card-title { font: 17px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); margin-bottom: 6px; }
+  .period-card-desc { font: var(--atl-text-sm); color: var(--atl-color-grey-60); line-height: 1.5; }
+  .period-card-body { padding: 0 20px 20px; }
+  .period-table { background: #F7F8FC; border: 1px solid var(--atl-color-grey-20); border-radius: var(--atl-border-radius); overflow: hidden; margin-bottom: 14px; }
+  .period-row { display: flex; align-items: center; padding: 10px 14px; gap: 8px; }
+  .period-row--sum { position: relative; }
+  .period-row--sum::before { content: ''; position: absolute; top: 0; left: 14px; right: 14px; height: 1px; background: var(--atl-color-grey-20); }
+  .period-type { font: var(--atl-text-sm); font-weight: var(--atl-font-medium); color: var(--atl-color-blue-100); min-width: 110px; }
+  .period-date { font: var(--atl-text-sm); color: var(--atl-color-grey-100); flex: 1; }
+  .period-pill { display: inline-flex; align-items: center; height: 26px; padding: 0 12px; background: var(--atl-color-white); border: 1px solid var(--atl-color-grey-20); border-radius: 99px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); white-space: nowrap; }
+  .btn--ghost { background: none; border: none; color: var(--atl-color-blue-100); padding: 0; gap: 6px; }
+
+  /* Detail cols */
+  .detail-cols { display: flex; gap: 16px; flex-wrap: wrap; }
+  .detail-col { flex: 1; min-width: 90px; display: flex; flex-direction: column; gap: 6px; }
+  .detail-label { font: var(--atl-text-sm); font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); }
+  .detail-value { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .detail-value-row { display: flex; align-items: center; gap: 6px; }
+
+  /* Krever handling box */
+  .kh-close { background: none; border: none; cursor: pointer; color: var(--atl-color-grey-60); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: var(--atl-border-radius); font-size: 16px; }
+  .kh-close:hover { background: var(--atl-color-grey-10); }
+  .kh-items { display: flex; flex-direction: column; gap: 8px; }
+  .kh-item { background: var(--atl-color-white); border: 1px solid var(--atl-color-grey-20); border-radius: var(--atl-border-radius); padding: 14px 16px; }
+  .kh-item-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+  .kh-text { font: var(--atl-text-sm); color: var(--atl-color-grey-100); line-height: 1.5; margin-bottom: 12px; }
+
+  /* Stepper */
+  .stepper { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 14px; padding-bottom: 20px; }
+  .step:last-child { padding-bottom: 0; }
+  .step-track { display: flex; flex-direction: column; align-items: center; width: 22px; flex-shrink: 0; position: relative; }
+  /* Continuous line from center of circle to bottom of step (incl. gap to next step) */
+  .step:not(:last-child) .step-track::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: -20px;
+    left: 50%; transform: translateX(-50%);
+    width: 2px;
+    background: var(--atl-color-grey-20);
+    z-index: 0;
+  }
+  .step--done:not(:last-child) .step-track::after { background: var(--atl-color-blue-80); }
+  .step-circle {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font: 11px/1 "Rubik", sans-serif;
+    font-weight: var(--atl-font-medium);
+    position: relative; z-index: 1;
+    flex-shrink: 0;
+  }
+  .step-circle--done { background: var(--atl-color-blue-80); color: var(--atl-color-white); }
+  .step-circle--current { background: var(--atl-color-blue-80); color: var(--atl-color-white); }
+  .step-circle--upcoming { background: var(--atl-color-white); border: 2px solid var(--atl-color-grey-20); color: var(--atl-color-grey-60); }
+  .step-content { flex: 1; padding-top: 2px; }
+  .step-title { font: var(--atl-text-sm); color: var(--atl-color-grey-100); line-height: 1.4; }
+  .step-title--active { font-weight: var(--atl-font-medium); }
+  .step-title--upcoming { color: var(--atl-color-grey-60); }
+  .step-subtitle { font: var(--atl-text-sm); color: var(--atl-color-grey-60); line-height: 1.4; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="tb-icon-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect y="2.5" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="7" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="11.5" width="16" height="1.5" rx="0.75" fill="currentColor"/></svg></button>
+      <span class="tb-logo">tripletex</span>
+      <div class="tb-sep"></div>
+      <div class="tb-company">
+        <span class="tb-company-badge">T</span>
+        <span class="tb-company-name">Tripletex AS</span>
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-search"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M9.5 9.5L12.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Søk</div>
+      <button class="tb-assistant">Assistent ✦</button>
+      <button class="tb-icon-btn" title="Favoritter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5 3.7.5-2.7 2.6.6 3.7L8 10.5l-3.1 1.8.6-3.7L3 5.5l3.7-.5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Last ned"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2.5v7M5.5 7l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Varsler"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 003.5 6v3L2 11h12l-1.5-2V6A4.5 4.5 0 008 1.5z" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      <button class="tb-icon-btn" title="Meldinger"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 13.5l1.5-2h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Hjelp"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 6.5a2 2 0 114 0c0 1.5-2 1.5-2 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Kunngjøringer"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1 3H13l-2.5 2 1 3L8 8.5 4.5 10l1-3L3 5h4L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Rapporter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5L13 5.5V14H3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 2v4h4M6 9h4M6 11.5h2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" style="width:28px;height:28px;background:var(--atl-color-grey-10);border-radius:50%;" title="Bruker"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+
+  <!-- Shell body -->
+  <div class="shell-body">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <a class="nav-item" href="#"><span class="nav-icon" style="color:#f7c137;"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5l1.6 3.6 3.9.6-2.8 2.7.7 3.9L8 10.5l-3.4 1.8.7-3.9L2.5 5.7l3.9-.6L8 1.5z"/></svg></span>Favoritter</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 7.5l6-5 6 5V14H10.5v-4h-5v4H2V7.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Hjem</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Klient</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Timeliste</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8.5L2 13l1.5-4.5L2 4l11.5 4.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Reiser og utlegg</a>
+      <div class="nav-item nav-item--active"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Ferie og fravær</div>
+      <a class="nav-sub nav-sub--active" href="fraværsoversikt.html"><span class="nav-bullet"></span>Fraværsoversikt</a>
+      <a class="nav-sub" href="avstemming.html"><span class="nav-bullet"></span>Avstemming av refusjoner</a>
+      <div class="nav-sub"><span class="nav-bullet"></span>Inntektsmeldinger</div>
+      <div class="nav-sub"><span class="nav-bullet"></span>Rapporter og statistikk</div>
+      <div class="nav-sub"><span class="nav-bullet"></span>Innstillinger</div>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h8l2 2v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M10 2v3H5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Bilag</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="7" width="12" height="7" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M4 7V5M8 7V5M12 7V5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M1.5 5h13l-6.5-3L1.5 5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Bank</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></span>Regnskap</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 12V8M7 12V5M11 12V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Rapporter</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L2.5 5v6L8 14l5.5-3V5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 2v12M2.5 5L8 8l5.5-3" stroke="currentColor" stroke-width="1.3"/></svg></span>Prosjekt</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h10v13l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 7h5M5.5 9.5h5M5.5 5h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Faktura</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 13c0-2.5 2.2-4.5 5-4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="11.5" cy="10" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 8.5v1.5l1 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Kunde</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4.5" width="12" height="7.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.5v1M6.5 8.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Lønn</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2.5 2.5L11 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Oppgave</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5L13 5.5V14H3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 2v4h4" stroke="currentColor" stroke-width="1.3"/></svg></span>Dokument</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M7 4.5h2V7M9 7v2H7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Integrasjoner</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5.5 10.5h5M8 9v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Årsoppgjør</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 6V5a2.5 2.5 0 015 0v1" stroke="currentColor" stroke-width="1.3"/></svg></span>Selskap</a>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="page">
+
+        <!-- Page header -->
+        <div class="page-header">
+          <h1 class="page-title">Fraværsoversikt</h1>
+          <div class="page-actions">
+            <button class="btn btn--primary">
+              Registrer fravær
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <span class="tab tab--active"><span class="tab-label">Ansattes fravær</span></span>
+          <span class="tab"><span class="tab-label">Mitt fravær</span></span>
+        </div>
+
+        <!-- Content body -->
+        <div class="content-body">
+          <div class="split-section">
+
+          <!-- Filter bar -->
+          <div class="filter-bar">
+            <div class="filter-bar-left">
+              <button class="filter-btn">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Filter
+              </button>
+              <input class="filter-search" type="text" placeholder="Søk">
+              <div class="content-switcher">
+                <button class="cs-btn cs-btn--active">Alle</button>
+                <button class="cs-btn">Krever handling</button>
+              </div>
+              <select class="filter-select"><option>Alle ansatte</option></select>
+              <select class="filter-select"><option>Alle avdelinger</option></select>
+              <label class="toggle-wrap">
+                <button class="toggle" aria-label="Slå av/på"></button>
+                Samle fravær med samme arbeidsgiverperiode
+              </label>
+            </div>
+            <div class="filter-bar-right">
+              <button class="icon-btn" aria-label="Innstillinger">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6.8 1.5h2.4l.3 1.4.9.4 1.2-.8 1.7 1.7-.8 1.2.4.9 1.4.3v2.4l-1.4.3-.4.9.8 1.2-1.7 1.7-1.2-.8-.9.4-.3 1.4H6.8l-.3-1.4-.9-.4-1.2.8-1.7-1.7.8-1.2-.4-.9-1.4-.3V6.8l1.4-.3.4-.9-.8-1.2 1.7-1.7 1.2.8.9-.4.3-1.4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Split view -->
+          <div class="split">
+
+            <!-- Left list -->
+            <div class="list-panel">
+
+              <div class="list-row" onclick="selectRow(this, 'panel-ingrid')">
+                <div class="row-avatar">IR</div>
+                <div class="row-content">
+                  <div class="row-top">
+                    <span><span class="row-name">Ingrid Reigstad</span> <span class="row-type">– Egenmelding</span></span>
+                    <span class="status-dot status-dot--warning">Krever handling</span>
+                  </div>
+                  <div class="row-meta">
+                    01.11.26–2.11.26 <span class="chip">2 dager</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-row list-row--selected" id="row-jakob" onclick="selectRow(this, 'panel-jakob')">
+                <div class="row-avatar">JP</div>
+                <div class="row-content">
+                  <div class="row-top">
+                    <span><span class="row-name">Jakob Pettersen</span> <span class="row-type">– Fraværsperiode</span></span>
+                    <span class="status-dot status-dot--warning">Krever handling</span>
+                  </div>
+                  <div class="row-meta">
+                    31.10.26–30.11.26 <span class="chip">31 dager</span> <span class="chip">2 anknyttet fravær</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-row" onclick="selectRow(this, 'panel-sofia-b')">
+                <div class="row-avatar">SB</div>
+                <div class="row-content">
+                  <div class="row-top">
+                    <span><span class="row-name">Sofia Berg</span> <span class="row-type">– Foreldrepermisjon</span></span>
+                    <span class="status-dot status-dot--info">Ny</span>
+                  </div>
+                  <div class="row-meta">
+                    31.02.26–30.11.26 <span class="chip">181 dager</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-row" onclick="selectRow(this, 'panel-thomas')">
+                <div class="row-avatar">TL</div>
+                <div class="row-content">
+                  <div class="row-top">
+                    <span><span class="row-name">Thomas Lie</span> <span class="row-type">– Sykt barn</span></span>
+                    <span class="status-dot status-dot--success">Aktiv</span>
+                  </div>
+                  <div class="row-meta">
+                    10.11.26–12.11.26 <span class="chip">3 dager</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-row" onclick="selectRow(this, 'panel-erik')">
+                <div class="row-avatar">ED</div>
+                <div class="row-content">
+                  <div class="row-top">
+                    <span><span class="row-name">Erik Dahl</span> <span class="row-type">– Ferie</span></span>
+                    <span class="status-dot status-dot--neutral">Kommende</span>
+                  </div>
+                  <div class="row-meta">
+                    18.11.26–21.11.26 <span class="chip">4 dager</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-row" onclick="selectRow(this, 'panel-martin')">
+                <div class="row-avatar">MJ</div>
+                <div class="row-content">
+                  <div class="row-top">
+                    <span><span class="row-name">Martin Johansen</span> <span class="row-type">– Egenmelding</span></span>
+                    <span class="status-dot status-dot--neutral">Fullført</span>
+                  </div>
+                  <div class="row-meta">
+                    06.10.26–10.10.26 <span class="chip">3 dager</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-row" onclick="selectRow(this, 'panel-sofia-eg')">
+                <div class="row-avatar">SB</div>
+                <div class="row-content">
+                  <div class="row-top">
+                    <span><span class="row-name">Sofia Berg</span> <span class="row-type">– Egenmelding</span></span>
+                    <span class="status-dot status-dot--neutral">Fullført</span>
+                  </div>
+                  <div class="row-meta">
+                    01.10.26 <span class="chip">1 dag</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-row" onclick="selectRow(this, 'panel-kari')">
+                <div class="row-avatar">KL</div>
+                <div class="row-content">
+                  <div class="row-top">
+                    <span><span class="row-name">Kari Laurstad</span> <span class="row-type">– Egenmelding</span></span>
+                    <span class="status-dot status-dot--neutral">Fullført</span>
+                  </div>
+                  <div class="row-meta">
+                    13.08.26–17.08.26 <span class="chip">3 dager</span>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /list-panel -->
+
+            <div id="split-divider" class="split-divider"></div>
+
+            <!-- Detail panel -->
+            <div class="detail-panel" id="detail-panel">
+
+              <!-- Panel: Jakob Pettersen (default visible) -->
+              <div id="panel-jakob">
+                <div class="dp-meta">
+                  <span class="dp-meta-text">31.10.26–30.11.26</span>
+                  <span class="dp-sep">·</span>
+                  <span class="dp-chip">31 dager</span>
+                  <span class="dp-sep">·</span>
+                  <span class="dp-meta-text">Diskkontoret</span>
+                  <span class="dp-sep">·</span>
+                  <span class="dp-meta-text dp-meta-text--icon">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10 3L5 8.5 2 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Synkronisert med Altinn
+                  </span>
+                </div>
+                <div class="dp-employee">
+                  <div class="dp-avatar">JP</div>
+                  <div>
+                    <span class="dp-name">Jakob Pettersen</span>
+                    <span class="dp-type"> – Fraværsperiode</span>
+                  </div>
+                </div>
+
+                <!-- Detaljer -->
+                <div class="inner-card">
+                  <div class="inner-card-header">
+                    <span class="inner-card-title">Detaljer</span>
+                  </div>
+                  <div class="inner-card-body">
+                    <div class="detail-cols">
+                      <div class="detail-col">
+                        <span class="detail-label">Fraværstype</span>
+                        <span class="detail-value">Fraværsperiode<br><span style="color:var(--atl-color-grey-60);font-size:12px;">(Sykemelding og egenmelding)</span></span>
+                      </div>
+                      <div class="detail-col">
+                        <span class="detail-label">Lengde</span>
+                        <span class="detail-value">31 dager</span>
+                      </div>
+                      <div class="detail-col">
+                        <span class="detail-label">Periode</span>
+                        <span class="detail-value">31.10.26–30.11.26</span>
+                      </div>
+                      <div class="detail-col">
+                        <span class="detail-label">Fraværsgrad</span>
+                        <span class="detail-value">100%</span>
+                      </div>
+                      <div class="detail-col">
+                        <span class="detail-label">Lønn dekkes av NAV</span>
+                        <div class="detail-value-row">
+                          <span class="detail-value">F.o.m. 16.11.26</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Krever handling box -->
+                <div class="inner-card" id="kh-box">
+                  <div class="inner-card-header">
+                    <span class="inner-card-title">Krever handling</span>
+                  </div>
+                  <div class="inner-card-body">
+                    <div class="kh-items">
+                      <div class="kh-item">
+                        <div class="kh-item-header">
+                          <p class="kh-text" style="margin-bottom:0;">Sjekk at refusjonen fra NAV er korrekt. Du har mottatt en halv refusjon for dette fraværet.</p>
+                          <button class="kh-close" onclick="this.closest('.kh-item').style.display='none'">×</button>
+                        </div>
+                        <div style="margin-top:12px;">
+                          <a href="avstemming.html" class="btn btn--primary btn--small">Åpne refusjonsoversikt</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Forløp -->
+                <div class="inner-card">
+                  <div class="inner-card-header">
+                    <span class="inner-card-title">Forløp</span>
+                  </div>
+                  <div class="inner-card-body">
+                    <div class="stepper">
+                      <!-- Step 1: Egenmelding (done) -->
+                      <div class="step step--done">
+                        <div class="step-track">
+                          <div class="step-circle step-circle--done">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </div>
+                        </div>
+                        <div class="step-content">
+                          <div class="step-title" style="font-weight:var(--atl-font-medium);color:var(--atl-color-blue-100);">Egenmelding</div>
+                          <div class="step-subtitle">21.10.26</div>
+                        </div>
+                      </div>
+                      <!-- Step 2: Sykemelding (current) -->
+                      <div class="step">
+                        <div class="step-track">
+                          <div class="step-circle step-circle--current">2</div>
+                        </div>
+                        <div class="step-content">
+                          <div class="step-title step-title--active">Sykemelding</div>
+                          <div class="step-subtitle">01.11.26–30.11.26 (aktiv)</div>
+                        </div>
+                      </div>
+                      <!-- Step 3: Inntektsmelding (done) -->
+                      <div class="step step--done">
+                        <div class="step-track">
+                          <div class="step-circle step-circle--done">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </div>
+                        </div>
+                        <div class="step-content">
+                          <div class="step-title">Inntektsmelding sendes til NAV</div>
+                          <div class="step-subtitle">NAV trenger inntektsmelding for å behandle sykepengesøknaden.</div>
+                        </div>
+                      </div>
+                      <!-- Step 4: Overgang til sykepenger (done) -->
+                      <div class="step step--done">
+                        <div class="step-track">
+                          <div class="step-circle step-circle--done">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          </div>
+                        </div>
+                        <div class="step-content">
+                          <div class="step-title">Overgang til sykepenger fra NAV</div>
+                          <div class="step-subtitle">F.o.m. 16.11.26 dekkes sykepenger av NAV.</div>
+                        </div>
+                      </div>
+                      <!-- Step 5: Oppfølgingsplan -->
+                      <div class="step">
+                        <div class="step-track">
+                          <div class="step-circle step-circle--upcoming">5</div>
+                        </div>
+                        <div class="step-content">
+                          <div class="step-title step-title--upcoming">Oppfølgingsplan</div>
+                          <div class="step-subtitle">Lag en oppfølgingsplan innen 01.11.26.</div>
+                        </div>
+                      </div>
+                      <!-- Step 6: Dialogmøte -->
+                      <div class="step">
+                        <div class="step-track">
+                          <div class="step-circle step-circle--upcoming">6</div>
+                        </div>
+                        <div class="step-content">
+                          <div class="step-title step-title--upcoming">Dialogmøte</div>
+                          <div class="step-subtitle">Gjennomføres mellom 01.11.24–31.12.24.</div>
+                        </div>
+                      </div>
+                      <!-- Step 7: Siste dag for sykepenger -->
+                      <div class="step">
+                        <div class="step-track">
+                          <div class="step-circle step-circle--upcoming">7</div>
+                        </div>
+                        <div class="step-content">
+                          <div class="step-title step-title--upcoming">Siste dag for sykepenger utbetalt av NAV</div>
+                          <div class="step-subtitle">30.10.27</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Fravær i denne perioden -->
+                <div class="period-card">
+                  <div class="period-card-header">
+                    <div class="period-card-title">Fravær i denne perioden</div>
+                    <p class="period-card-desc">Her ser du alle fravær som inngår i samme sykefraværsperiode. Etter dag 16 av den totale fraværsperioden dekkes lønn av NAV.</p>
+                  </div>
+                  <div class="period-card-body">
+                    <div class="period-table">
+                      <div class="period-row">
+                        <span class="period-type">Egenmelding</span>
+                        <span class="period-date">31.10.26</span>
+                        <span class="period-pill">1 dag</span>
+                      </div>
+                      <div class="period-row">
+                        <span class="period-type">Sykemelding</span>
+                        <span class="period-date">01.11.26–30.11.26</span>
+                        <span class="period-pill">30 dager</span>
+                      </div>
+                      <div class="period-row period-row--sum">
+                        <span class="period-type" style="color:var(--atl-color-grey-100);">Sum</span>
+                        <span class="period-date">31.10.26–30.11.26</span>
+                        <span class="period-pill">31 dager</span>
+                      </div>
+                    </div>
+                    <button class="btn btn--ghost btn--small">Rediger fraværsperiode
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M10 2L12 4 5 11H3V9L10 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+              </div><!-- /panel-jakob -->
+
+              <!-- Panels for other rows (simplified) -->
+              <div id="panel-ingrid" style="display:none">
+                <div class="dp-meta"><span class="dp-meta-text">01.11.26–02.11.26</span><span class="dp-sep">·</span><span class="dp-chip">2 dager</span><span class="dp-sep">·</span><span class="dp-meta-text">Administrasjon</span></div>
+                <div class="dp-employee"><div class="dp-avatar">IR</div><div><span class="dp-name">Ingrid Reigstad</span><span class="dp-type"> – Egenmelding</span></div></div>
+                <div class="inner-card"><div class="inner-card-header"><span class="inner-card-title">Detaljer</span></div><div class="inner-card-body"><div class="detail-cols"><div class="detail-col"><span class="detail-label">Fraværstype</span><span class="detail-value">Egenmelding</span></div><div class="detail-col"><span class="detail-label">Lengde</span><span class="detail-value">2 dager</span></div><div class="detail-col"><span class="detail-label">Periode</span><span class="detail-value">01.11.26–02.11.26</span></div></div></div></div>
+              </div>
+
+              <div id="panel-sofia-b" style="display:none">
+                <div class="dp-meta"><span class="dp-meta-text">31.02.26–30.11.26</span><span class="dp-sep">·</span><span class="dp-chip">181 dager</span><span class="dp-sep">·</span><span class="dp-meta-text">Salg</span></div>
+                <div class="dp-employee"><div class="dp-avatar">SB</div><div><span class="dp-name">Sofia Berg</span><span class="dp-type"> – Foreldrepermisjon</span></div></div>
+                <div class="inner-card"><div class="inner-card-header"><span class="inner-card-title">Detaljer</span></div><div class="inner-card-body"><div class="detail-cols"><div class="detail-col"><span class="detail-label">Fraværstype</span><span class="detail-value">Foreldrepermisjon</span></div><div class="detail-col"><span class="detail-label">Lengde</span><span class="detail-value">181 dager</span></div><div class="detail-col"><span class="detail-label">Periode</span><span class="detail-value">31.02.26–30.11.26</span></div></div></div></div>
+              </div>
+
+              <div id="panel-thomas" style="display:none">
+                <div class="dp-meta"><span class="dp-meta-text">10.11.26–12.11.26</span><span class="dp-sep">·</span><span class="dp-chip">3 dager</span><span class="dp-sep">·</span><span class="dp-meta-text">IT</span></div>
+                <div class="dp-employee"><div class="dp-avatar">TL</div><div><span class="dp-name">Thomas Lie</span><span class="dp-type"> – Sykt barn</span></div></div>
+                <div class="inner-card"><div class="inner-card-header"><span class="inner-card-title">Detaljer</span></div><div class="inner-card-body"><div class="detail-cols"><div class="detail-col"><span class="detail-label">Fraværstype</span><span class="detail-value">Sykt barn</span></div><div class="detail-col"><span class="detail-label">Lengde</span><span class="detail-value">3 dager</span></div><div class="detail-col"><span class="detail-label">Periode</span><span class="detail-value">10.11.26–12.11.26</span></div></div></div></div>
+              </div>
+
+              <div id="panel-erik" style="display:none">
+                <div class="dp-meta"><span class="dp-meta-text">18.11.26–21.11.26</span><span class="dp-sep">·</span><span class="dp-chip">4 dager</span><span class="dp-sep">·</span><span class="dp-meta-text">Regnskap</span></div>
+                <div class="dp-employee"><div class="dp-avatar">ED</div><div><span class="dp-name">Erik Dahl</span><span class="dp-type"> – Ferie</span></div></div>
+                <div class="inner-card"><div class="inner-card-header"><span class="inner-card-title">Detaljer</span></div><div class="inner-card-body"><div class="detail-cols"><div class="detail-col"><span class="detail-label">Fraværstype</span><span class="detail-value">Ferie</span></div><div class="detail-col"><span class="detail-label">Lengde</span><span class="detail-value">4 dager</span></div><div class="detail-col"><span class="detail-label">Periode</span><span class="detail-value">18.11.26–21.11.26</span></div></div></div></div>
+              </div>
+
+              <div id="panel-martin" style="display:none">
+                <div class="dp-meta"><span class="dp-meta-text">06.10.26–10.10.26</span><span class="dp-sep">·</span><span class="dp-chip">3 dager</span></div>
+                <div class="dp-employee"><div class="dp-avatar">MJ</div><div><span class="dp-name">Martin Johansen</span><span class="dp-type"> – Egenmelding</span></div></div>
+                <div class="inner-card"><div class="inner-card-header"><span class="inner-card-title">Detaljer</span></div><div class="inner-card-body"><div class="detail-cols"><div class="detail-col"><span class="detail-label">Fraværstype</span><span class="detail-value">Egenmelding</span></div><div class="detail-col"><span class="detail-label">Lengde</span><span class="detail-value">3 dager</span></div><div class="detail-col"><span class="detail-label">Periode</span><span class="detail-value">06.10.26–10.10.26</span></div></div></div></div>
+              </div>
+
+              <div id="panel-sofia-eg" style="display:none">
+                <div class="dp-meta"><span class="dp-meta-text">01.10.26</span><span class="dp-sep">·</span><span class="dp-chip">1 dag</span></div>
+                <div class="dp-employee"><div class="dp-avatar">SB</div><div><span class="dp-name">Sofia Berg</span><span class="dp-type"> – Egenmelding</span></div></div>
+                <div class="inner-card"><div class="inner-card-header"><span class="inner-card-title">Detaljer</span></div><div class="inner-card-body"><div class="detail-cols"><div class="detail-col"><span class="detail-label">Fraværstype</span><span class="detail-value">Egenmelding</span></div><div class="detail-col"><span class="detail-label">Lengde</span><span class="detail-value">1 dag</span></div><div class="detail-col"><span class="detail-label">Periode</span><span class="detail-value">01.10.26</span></div></div></div></div>
+              </div>
+
+              <div id="panel-kari" style="display:none">
+                <div class="dp-meta"><span class="dp-meta-text">13.08.26–17.08.26</span><span class="dp-sep">·</span><span class="dp-chip">3 dager</span></div>
+                <div class="dp-employee"><div class="dp-avatar">KL</div><div><span class="dp-name">Kari Laurstad</span><span class="dp-type"> – Egenmelding</span></div></div>
+                <div class="inner-card"><div class="inner-card-header"><span class="inner-card-title">Detaljer</span></div><div class="inner-card-body"><div class="detail-cols"><div class="detail-col"><span class="detail-label">Fraværstype</span><span class="detail-value">Egenmelding</span></div><div class="detail-col"><span class="detail-label">Lengde</span><span class="detail-value">3 dager</span></div><div class="detail-col"><span class="detail-label">Periode</span><span class="detail-value">13.08.26–17.08.26</span></div></div></div></div>
+              </div>
+
+            </div><!-- /detail-panel -->
+          </div><!-- /split -->
+          </div><!-- /split-section -->
+
+        </div><!-- /content-body -->
+      </div><!-- /page -->
+    </div><!-- /main-content -->
+  </div><!-- /shell-body -->
+</div><!-- /shell -->
+
+<script>
+  // Draggable split divider
+  const divider = document.getElementById('split-divider');
+  const splitEl = divider.parentElement;
+  const listPanel = splitEl.querySelector('.list-panel');
+  let dragging = false, startX = 0, startW = 0;
+  divider.addEventListener('mousedown', e => {
+    dragging = true; startX = e.clientX; startW = listPanel.offsetWidth;
+    divider.classList.add('split-divider--active');
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'col-resize';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const newW = Math.max(220, Math.min(splitEl.offsetWidth - 220, startW + e.clientX - startX));
+    listPanel.style.width = newW + 'px';
+    listPanel.style.flex = 'none';
+  });
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    divider.classList.remove('split-divider--active');
+    document.body.style.userSelect = '';
+    document.body.style.cursor = '';
+  });
+
+  const panels = ['panel-jakob','panel-ingrid','panel-sofia-b','panel-thomas','panel-erik','panel-martin','panel-sofia-eg','panel-kari'];
+
+  function selectRow(rowEl, panelId) {
+    // Deselect all rows
+    document.querySelectorAll('.list-row').forEach(r => r.classList.remove('list-row--selected'));
+    rowEl.classList.add('list-row--selected');
+
+    // Hide all panels, show selected
+    panels.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = id === panelId ? '' : 'none';
+    });
+  }
+</script>
+
+</body>
+</html>
