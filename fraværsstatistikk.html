@@ -176,6 +176,71 @@
   .sv-row:hover { background: var(--atl-color-grey-5); }
   .sv-label { flex: 1; font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
   .drag-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: var(--atl-color-grey-40); flex-shrink: 0; }
+
+  /* ── Visualiseringer ─────────────────────────────── */
+  .viz-wrap { display: flex; flex-direction: column; gap: 0; }
+
+  /* Stat cards row */
+  .viz-stat-row { display: flex; }
+  .viz-stat-card { flex: 1; border-right: 1px solid var(--atl-color-grey-20); padding: 16px; display: flex; flex-direction: column; gap: 12px; background: #fff; }
+  .viz-stat-card:last-child { border-right: none; }
+  .viz-stat-label { font: 16px/1.3 "Rubik", sans-serif; color: var(--atl-color-grey-100); }
+  .viz-stat-number { font: 500 30px/1.3 "Rubik", sans-serif; color: var(--atl-color-grey-100); }
+  .viz-stat-value-row { display: flex; align-items: center; gap: 8px; }
+  .viz-badge-green { background: var(--atl-color-green-5); color: var(--atl-color-green-100); font: 500 var(--atl-text-sm); padding: 2px 6px; border-radius: 4px; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+  .viz-stat-sub { font: var(--atl-text-sm); color: var(--atl-color-grey-60); }
+  .viz-stat-sub a { color: var(--atl-color-blue-100); text-decoration: none; }
+  .viz-icon-btn-warn { width: 32px; height: 32px; background: #fffcf5; border: 1px solid #f7c137; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+  .viz-icon-btn-error { width: 32px; height: 32px; background: var(--atl-color-red-5); border: 1px solid var(--atl-color-red-40); border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+  .viz-link { font: var(--atl-text-sm); color: var(--atl-color-blue-100); text-decoration: none; }
+
+  /* Chart + Fraværsprosent side-by-side */
+  .viz-two-col { display: flex; border-top: 1px solid var(--atl-color-grey-20); background: #fff; min-height: 0; }
+  .viz-chart-col { flex: 1; min-width: 0; padding: 20px 24px 16px; border-right: 1px solid var(--atl-color-grey-20); display: flex; flex-direction: column; gap: 16px; }
+  .viz-fp-col { flex: 1; min-width: 0; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+  .viz-chart-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .viz-chart-title { font: 16px/1.3 "Rubik", sans-serif; color: var(--atl-color-grey-100); }
+  .viz-chart-total { font: var(--atl-text-sm); color: var(--atl-color-grey-60); }
+  .viz-legend { display: flex; gap: 20px; flex-wrap: wrap; }
+  .viz-legend-item { display: flex; flex-direction: column; gap: 4px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .viz-legend-item-row { display: flex; align-items: center; gap: 6px; }
+  .viz-legend-days { font: 500 var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .viz-legend-dot { width: 12px; height: 12px; border-radius: 99px; flex-shrink: 0; }
+  .viz-chart-svg-wrap { position: relative; margin: 0 -24px -16px; }
+  .viz-tooltip { position: absolute; background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 4px; padding: 8px 12px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); box-shadow: 0 2px 8px rgba(0,0,0,0.10); white-space: nowrap; pointer-events: none; }
+  .viz-fp-label { font: 16px/1.3 "Rubik", sans-serif; color: var(--atl-color-grey-100); }
+  .viz-fp-number { font: 500 30px/1.3 "Rubik", sans-serif; color: var(--atl-color-grey-100); }
+  .viz-fp-sub { font: var(--atl-text-sm); color: var(--atl-color-grey-60); display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .viz-fp-sub strong { color: var(--atl-color-grey-100); font-weight: 500; }
+  .viz-color-bar { display: flex; height: 20px; border-radius: 4px; overflow: hidden; width: 100%; }
+  .viz-bar-legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 4px; }
+  .viz-bar-legend-item { display: flex; flex-direction: column; gap: 4px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .viz-bar-legend-pct { font: 500 var(--atl-text-sm); color: var(--atl-color-grey-100); }
+
+  /* Ansatt modal */
+  .ansatt-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 500; display: flex; align-items: center; justify-content: center; }
+  .ansatt-modal-overlay--hidden { display: none; }
+  .ansatt-modal-box { background: #fff; border-radius: 4px; width: 710px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 8px 40px rgba(0,0,0,0.18); overflow: hidden; position: relative; }
+  .ansatt-modal-inner { padding: 32px; display: flex; flex-direction: column; gap: 24px; overflow-y: auto; }
+  .ansatt-modal-header { display: flex; flex-direction: column; gap: 4px; }
+  .ansatt-modal-title { font: 500 20px/1.3 "Rubik", sans-serif; color: var(--atl-color-grey-100); }
+  .ansatt-modal-status { display: flex; align-items: center; gap: 6px; font: 14px/1.4 "Rubik", sans-serif; color: var(--atl-color-grey-100); }
+  .ansatt-modal-status-dot { width: 8px; height: 8px; border-radius: 99px; background: #f7c137; flex-shrink: 0; }
+  .ansatt-modal-close { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--atl-color-grey-60); }
+  .ansatt-modal-close:hover { background: var(--atl-color-grey-5); }
+  .ansatt-table-wrap { border: 1px solid var(--atl-color-grey-20); border-radius: 4px; overflow: hidden; }
+  .ansatt-modal-search-row { padding: 12px; border-bottom: 1px solid var(--atl-color-grey-20); background: #fff; }
+  .ansatt-modal-search { width: 100%; height: 40px; border: 1px solid var(--atl-color-grey-60); border-radius: 4px; padding: 0 12px 0 16px; font: 14px/1.4 "Rubik", sans-serif; color: var(--atl-color-grey-100); background: #f7f8fc; box-sizing: border-box; }
+  .ansatt-modal-search::placeholder { color: #abafb7; }
+  .ansatt-modal-table { width: 100%; border-collapse: collapse; font: 14px/1.4 "Rubik", sans-serif; }
+  .ansatt-modal-table th { background: var(--atl-color-blue-5); padding: 10px 12px; text-align: left; font-weight: 500; border-bottom: 1px solid var(--atl-color-grey-20); white-space: nowrap; }
+  .ansatt-modal-table td { padding: 8px 12px; border-bottom: 1px solid var(--atl-color-grey-20); color: var(--atl-color-grey-100); }
+  .ansatt-modal-table tr:last-child td { border-bottom: none; }
+  .ansatt-modal-table tr:hover td { background: var(--atl-color-blue-5); }
+  .ansatt-modal-table strong { font-weight: 500; }
+  .ansatt-avatar-cell { display: flex; align-items: center; gap: 8px; }
+  .ansatt-avatar { width: 24px; height: 24px; border-radius: 99px; overflow: hidden; flex-shrink: 0; background: var(--atl-color-grey-20); display: flex; align-items: center; justify-content: center; font: 500 10px/1 "Rubik", sans-serif; color: var(--atl-color-grey-80); }
+  .ansatt-modal-footer { padding: 0 32px 32px; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -282,9 +347,9 @@
                   </div>
                 </div>
                 <div class="content-switcher">
-                  <button class="cs-btn" onclick="byttVisning(this)">Visualiseringer</button>
+                  <button class="cs-btn cs-btn--active" onclick="byttVisning(this)">Visualiseringer</button>
                   <button class="cs-btn" onclick="byttVisning(this)">Ansatte (oversikt)</button>
-                  <button class="cs-btn cs-btn--active" onclick="byttVisning(this)">Ansatte (alle fraværstyper)</button>
+                  <button class="cs-btn" onclick="byttVisning(this)">Ansatte (alle fraværstyper)</button>
                 </div>
               </div>
               <div class="filter-bar-right">
@@ -297,7 +362,246 @@
               </div>
             </div>
 
-            <!-- Statistics table -->
+            <!-- Visualiseringer -->
+            <div id="view-visualiseringer">
+              <div class="viz-wrap">
+
+                <!-- Stat cards -->
+                <div class="viz-stat-row">
+                  <div class="viz-stat-card">
+                    <p class="viz-stat-label">Antall egenmeldingsdager</p>
+                    <div>
+                      <div class="viz-stat-value-row">
+                        <span class="viz-stat-number">12</span>
+                        <span class="viz-badge-green">-13 % sammenlignet med i fjor</span>
+                      </div>
+                      <p class="viz-stat-sub" style="margin-top:4px;">Fordelt på <a href="#" onclick="visModalEgenmeldingsdager(); return false;">6 ansatte</a></p>
+                    </div>
+                  </div>
+                  <div class="viz-stat-card">
+                    <p class="viz-stat-label">Ansatte nær fraværskvoter</p>
+                    <div>
+                      <div class="viz-stat-value-row">
+                        <span class="viz-stat-number">11</span>
+                        <button class="viz-icon-btn-warn">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L1.5 13.5h13L8 2z" stroke="#2e384d" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6.5v3" stroke="#2e384d" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11" r="0.75" fill="#2e384d"/></svg>
+                        </button>
+                      </div>
+                      <a href="#" class="viz-link" style="margin-top:4px; display:inline-block;" onclick="visModalNarKvote(); return false;">Se ansatte</a>
+                    </div>
+                  </div>
+                  <div class="viz-stat-card">
+                    <p class="viz-stat-label">Ansatte over fraværskvoter</p>
+                    <div>
+                      <div class="viz-stat-value-row">
+                        <span class="viz-stat-number">3</span>
+                        <button class="viz-icon-btn-error">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#2e384d" stroke-width="1.3"/><path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="#2e384d" stroke-width="1.3" stroke-linecap="round"/></svg>
+                        </button>
+                      </div>
+                      <a href="#" class="viz-link" style="margin-top:4px; display:inline-block;" onclick="visModalOverKvote(); return false;">Se ansatte</a>
+                    </div>
+                  </div>
+                  <div class="viz-stat-card">
+                    <p class="viz-stat-label">Antall fraværsdager</p>
+                    <div>
+                      <div class="viz-stat-value-row">
+                        <span class="viz-stat-number">52</span>
+                        <span class="viz-badge-green">-13 % sammenlignet med i fjor</span>
+                      </div>
+                      <p class="viz-stat-sub" style="margin-top:4px;">Fordelt på <a href="#" onclick="visModalFraværsdager(); return false;">23 ansatte</a></p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Line chart + Fraværsprosent side by side -->
+                <div class="viz-two-col">
+
+                  <!-- Left: Line chart -->
+                  <div class="viz-chart-col">
+                    <div class="viz-chart-header">
+                      <div style="display:flex;flex-direction:column;gap:16px;">
+                        <span class="viz-chart-title">Utvikling sykefravær</span>
+                        <div style="display:flex;flex-direction:column;gap:2px;">
+                          <span style="font:13px/1.3 'Rubik',sans-serif;color:var(--atl-color-grey-60);">Totalt</span>
+                          <span class="viz-fp-number">174 dager</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="viz-chart-svg-wrap">
+                      <svg viewBox="0 0 720 220" width="100%" height="260" xmlns="http://www.w3.org/2000/svg" style="overflow:visible; display:block;">
+                        <!-- Y grid lines + labels -->
+                        <line x1="52" y1="10"  x2="710" y2="10"  stroke="#e9eaed" stroke-width="1"/>
+                        <line x1="52" y1="65"  x2="710" y2="65"  stroke="#e9eaed" stroke-width="1"/>
+                        <line x1="52" y1="120" x2="710" y2="120" stroke="#e9eaed" stroke-width="1"/>
+                        <line x1="52" y1="175" x2="710" y2="175" stroke="#e9eaed" stroke-width="1"/>
+                        <text x="44" y="14"  text-anchor="end" font-size="13" fill="#818794">40 k</text>
+                        <text x="44" y="69"  text-anchor="end" font-size="13" fill="#818794">20 k</text>
+                        <text x="44" y="124" text-anchor="end" font-size="13" fill="#818794">10 k</text>
+                        <text x="44" y="179" text-anchor="end" font-size="13" fill="#818794">5 k</text>
+                        <!-- X axis labels -->
+                        <text x="104" y="212" text-anchor="middle" font-size="13" fill="#818794">Januar</text>
+                        <text x="228" y="212" text-anchor="middle" font-size="13" fill="#818794">Februar</text>
+                        <text x="352" y="212" text-anchor="middle" font-size="13" fill="#818794">Mars</text>
+                        <text x="476" y="212" text-anchor="middle" font-size="13" fill="#818794">April</text>
+                        <text x="600" y="212" text-anchor="middle" font-size="13" fill="#818794">Mai</text>
+                        <!-- Langtidsfravær line (blue #093fed) — higher -->
+                        <polyline points="104,145 228,82 352,120 476,152 600,164" fill="none" stroke="#093fed" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+                        <!-- Korttidsfravær line (pink #ffbacd) — lower -->
+                        <polyline points="104,172 228,156 352,168 476,178 600,174" fill="none" stroke="#ffbacd" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+                        <!-- Tooltip dot on Feb, langtidsfravær -->
+                        <circle cx="228" cy="82" r="6" fill="#093fed" stroke="#fff" stroke-width="2"/>
+                        <!-- Tooltip box -->
+                        <rect x="240" y="58" width="120" height="30" rx="4" fill="#fff" stroke="#d5d7db"/>
+                        <text x="248" y="78" font-size="13" fill="#2e384d">26. februar 2025</text>
+                      </svg>
+                    </div>
+                    <div class="viz-legend">
+                      <div class="viz-legend-item">
+                        <span style="font:13px/1.3 'Rubik',sans-serif;color:var(--atl-color-grey-60);">Totalt</span>
+                        <span class="viz-legend-days">72 dager</span>
+                        <div class="viz-legend-item-row"><span class="viz-legend-dot" style="background:#ffbacd;"></span>Korttidsfravær</div>
+                      </div>
+                      <div class="viz-legend-item">
+                        <span style="font:13px/1.3 'Rubik',sans-serif;color:var(--atl-color-grey-60);">Totalt</span>
+                        <span class="viz-legend-days">102 dager</span>
+                        <div class="viz-legend-item-row"><span class="viz-legend-dot" style="background:#093fed;"></span>Langtidsfravær</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Right: Fraværsprosent -->
+                  <div class="viz-fp-col">
+                    <p class="viz-fp-label">Fraværsprosent</p>
+                    <div>
+                      <p class="viz-fp-number">12,5 %</p>
+                      <p class="viz-fp-sub" style="margin-top:6px;">
+                        Det er <strong>5 %</strong> mer enn forrige måned.
+                        <a href="#" class="viz-link" style="margin-left:4px;">Mulige årsaker →</a>
+                      </p>
+                    </div>
+                    <!-- Horizontal color bar -->
+                    <div class="viz-color-bar">
+                      <div style="flex:50;background:#0a41fa;"></div>
+                      <div style="flex:50;background:#ffb8e2;"></div>
+                    </div>
+                    <div class="viz-bar-legend">
+                      <div class="viz-bar-legend-item">
+                        <span style="font:13px/1.3 'Rubik',sans-serif;color:var(--atl-color-grey-60);">Totalt</span>
+                        <span class="viz-bar-legend-pct">50 %</span>
+                        <div class="viz-legend-item-row"><span class="viz-legend-dot" style="background:#0a41fa;"></span>Korttidsfravær</div>
+                      </div>
+                      <div class="viz-bar-legend-item">
+                        <span style="font:13px/1.3 'Rubik',sans-serif;color:var(--atl-color-grey-60);">Totalt</span>
+                        <span class="viz-bar-legend-pct">50 %</span>
+                        <div class="viz-legend-item-row"><span class="viz-legend-dot" style="background:#ffb8e2;"></span>Langtidsfravær</div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Ansatte (oversikt) table -->
+            <div id="view-oversikt" style="display:none;">
+              <table class="stats-table" style="table-layout:auto;">
+                <thead>
+                  <tr>
+                    <th>Ansatt</th>
+                    <th>Alt fravær</th>
+                    <th>Egenmeldingskvote</th>
+                    <th>Omsorgsdager kvote</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials">IR</span>Ingrid Reigstad</div></td>
+                    <td><div class="td-days"><span>2 dager</span><span class="chip">5,5 %</span></div></td>
+                    <td style="color:var(--atl-color-grey-80);">0/4 perioder og 0/12 dager</td>
+                    <td>2/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#C8E6C9;">AL</span>Ari Laurila</div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                    <td>2/4 perioder og 5/12 dager</td>
+                    <td>0/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#B3D9F5;">MJ</span>Martin Johnsen</div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                    <td style="color:var(--atl-color-grey-80);">0/4 perioder og 0/12 dager</td>
+                    <td>5/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#F5D0B3;">JJ</span>Jeanette Jimmerud</div></td>
+                    <td><div class="td-days"><span>30 dager</span><span class="chip">83,3 %</span></div></td>
+                    <td>3/4 perioder og 8/12 dager</td>
+                    <td>0/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#D8D2E9;">OP</span>Olav Pedersen</div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                    <td>2/4 perioder og 5/12 dager</td>
+                    <td>5/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#FFE0B2;">KH</span>Kari Hansen</div></td>
+                    <td><div class="td-days"><span>11 dager</span><span class="chip">30,6 %</span></div></td>
+                    <td>1/4 perioder og 1/12 dager</td>
+                    <td>0/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#B2DFDB;">TN</span>Turid Nilsen</div></td>
+                    <td><div class="td-days"><span>2 dager</span><span class="chip">5,6 %</span></div></td>
+                    <td style="color:var(--atl-color-grey-80);">0/4 perioder og 0/12 dager</td>
+                    <td>2/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#F8BBD9;">SB</span>Silje Berg</div></td>
+                    <td><div class="td-days"><span>3 dager</span><span class="chip">8,3 %</span></div></td>
+                    <td>1/4 perioder og 3/12 dager</td>
+                    <td>0/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#CFD8DC;">EA</span>Erik Andersen</div></td>
+                    <td><div class="td-days"><span>15 dager</span><span class="chip">41,7 %</span></div></td>
+                    <td style="color:var(--atl-color-grey-80);">0/4 perioder og 0/12 dager</td>
+                    <td>0/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#E1BEE7;">LM</span>Lena Moe</div></td>
+                    <td><div class="td-days"><span>6 dager</span><span class="chip">16,7 %</span></div></td>
+                    <td>1/4 perioder og 2/12 dager</td>
+                    <td>4/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#BBDEFB;">PK</span>Petter Kristiansen</div></td>
+                    <td><div class="td-days"><span>20 dager</span><span class="chip">55,6 %</span></div></td>
+                    <td style="color:var(--atl-color-grey-80);">0/4 perioder og 0/12 dager</td>
+                    <td>0/10</td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#DCEDC8;">HV</span>Hanne Vold</div></td>
+                    <td><div class="td-days"><span>4 dager</span><span class="chip">11,1 %</span></div></td>
+                    <td>2/4 perioder og 4/12 dager</td>
+                    <td>0/10</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr class="sum-row">
+                    <td style="color:var(--atl-color-grey-80);">Sum / 12 ansatte</td>
+                    <td><div class="td-days"><span>105 dager</span><span class="chip">24,4 %</span></div></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <!-- Ansatte (alle fraværstyper) table -->
+            <div id="view-alle" style="display:none;">
             <table class="stats-table">
               <thead>
                   <tr>
@@ -418,6 +722,7 @@
                   </tr>
                 </tfoot>
               </table>
+            </div><!-- /view-alle -->
 
           </div>
         </div>
@@ -538,6 +843,21 @@
       b.classList.remove('cs-btn--active');
     });
     btn.classList.add('cs-btn--active');
+
+    var label = btn.textContent.trim();
+    var viewAlle = document.getElementById('view-alle');
+    var viewOversikt = document.getElementById('view-oversikt');
+    var viewViz = document.getElementById('view-visualiseringer');
+    viewAlle.style.display = 'none';
+    viewOversikt.style.display = 'none';
+    viewViz.style.display = 'none';
+    if (label === 'Ansatte (alle fraværstyper)') {
+      viewAlle.style.display = '';
+    } else if (label === 'Ansatte (oversikt)') {
+      viewOversikt.style.display = '';
+    } else if (label === 'Visualiseringer') {
+      viewViz.style.display = '';
+    }
   }
 
   function aapneFilter(btn) {
@@ -570,6 +890,34 @@
     if (so.style.display === 'block' && !so.contains(e.target) && !e.target.closest('[data-settings]')) so.style.display = 'none';
   });
 
+  function visModalNarKvote() {
+    document.getElementById('modal-nar-kvote').classList.remove('ansatt-modal-overlay--hidden');
+  }
+  function lukkModalNarKvote() {
+    document.getElementById('modal-nar-kvote').classList.add('ansatt-modal-overlay--hidden');
+  }
+  function visModalEgenmeldingsdager() {
+    document.getElementById('modal-egenmeldingsdager').classList.remove('ansatt-modal-overlay--hidden');
+  }
+  function lukkModalEgenmeldingsdager() {
+    document.getElementById('modal-egenmeldingsdager').classList.add('ansatt-modal-overlay--hidden');
+  }
+  function visModalOverKvote() {
+    document.getElementById('modal-over-kvote').classList.remove('ansatt-modal-overlay--hidden');
+  }
+  function lukkModalOverKvote() {
+    document.getElementById('modal-over-kvote').classList.add('ansatt-modal-overlay--hidden');
+  }
+  function visModalFraværsdager() {
+    document.getElementById('modal-fraværsdager').classList.remove('ansatt-modal-overlay--hidden');
+  }
+  function lukkModalFraværsdager() {
+    document.getElementById('modal-fraværsdager').classList.add('ansatt-modal-overlay--hidden');
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { lukkModalNarKvote(); lukkModalOverKvote(); lukkModalEgenmeldingsdager(); lukkModalFraværsdager(); }
+  });
+
   if (sessionStorage.getItem('ssb_sent') === '1') {
     sessionStorage.removeItem('ssb_sent');
     var toast = document.getElementById('toast-success');
@@ -577,5 +925,238 @@
     setTimeout(function() { toast.style.display = 'none'; }, 5000);
   }
 </script>
+
+<!-- Modal: Antall fraværsdager -->
+<div id="modal-fraværsdager" class="ansatt-modal-overlay ansatt-modal-overlay--hidden" onclick="if(event.target===this)lukkModalFraværsdager();">
+  <div class="ansatt-modal-box">
+    <div class="ansatt-modal-inner">
+      <div class="ansatt-modal-header">
+        <p class="ansatt-modal-title">Antall fraværsdager</p>
+        <p style="font:14px/1.4 'Rubik',sans-serif;color:var(--atl-color-grey-60);">52 dager fordelt på 23 ansatte</p>
+      </div>
+      <button class="ansatt-modal-close" onclick="lukkModalFraværsdager();" aria-label="Lukk">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="ansatt-table-wrap" style="max-height:420px;overflow-y:auto;">
+        <div class="ansatt-modal-search-row" style="position:sticky;top:0;z-index:1;">
+          <input class="ansatt-modal-search" type="text" placeholder="Søk etter ansatt…">
+        </div>
+        <table class="ansatt-modal-table">
+          <thead style="position:sticky;top:65px;z-index:1;">
+            <tr>
+              <th>Ansatt <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th style="text-align:right;">Fraværsdager <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#D8D2E9;">IR</div>Ingrid Reigstad</div></td><td style="text-align:right;">1</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#C8E6C9;">KL</div>Kari Laurstad</div></td><td style="text-align:right;">10</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#B3D9F5;">MJ</div>Martin Johnsen</div></td><td style="text-align:right;">2</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#F5D0B3;">JJ</div>Jeanette Johnsrud</div></td><td style="text-align:right;">2</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#FFE0B2;">OP</div>Olav Pedersen</div></td><td style="text-align:right;">1</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#B2DFDB;">JP</div>Jens Pettersen</div></td><td style="text-align:right;">3</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#F8BBD9;">AL</div>Ari Laurila</div></td><td style="text-align:right;">4</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#DCEDC8;">HV</div>Hanne Vold</div></td><td style="text-align:right;">2</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#CFD8DC;">EA</div>Erik Andersen</div></td><td style="text-align:right;">5</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#E1BEE7;">SB</div>Silje Berg</div></td><td style="text-align:right;">3</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#BBDEFB;">TN</div>Turid Nilsen</div></td><td style="text-align:right;">2</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#D8D2E9;">LM</div>Lena Moe</div></td><td style="text-align:right;">1</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#C8E6C9;">PK</div>Petter Kristiansen</div></td><td style="text-align:right;">4</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#B3D9F5;">AL</div>Anne Larsen</div></td><td style="text-align:right;">2</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#F5D0B3;">LH</div>Lars Hansen</div></td><td style="text-align:right;">3</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#FFE0B2;">NS</div>Nora Solberg</div></td><td style="text-align:right;">1</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#B2DFDB;">BE</div>Bjørn Eriksen</div></td><td style="text-align:right;">2</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#F8BBD9;">MD</div>Marte Dahl</div></td><td style="text-align:right;">1</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#DCEDC8;">TC</div>Tor Christensen</div></td><td style="text-align:right;">3</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#CFD8DC;">IB</div>Ida Berg</div></td><td style="text-align:right;">2</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#E1BEE7;">PH</div>Per Halvorsen</div></td><td style="text-align:right;">1</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#BBDEFB;">SB</div>Siri Bakke</div></td><td style="text-align:right;">3</td></tr>
+            <tr><td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#D8D2E9;">JV</div>Jonas Vik</div></td><td style="text-align:right;">2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ansatt-modal-footer">
+      <button class="btn btn--primary" onclick="lukkModalFraværsdager();">Lukk</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ansatte nær fraværskvoter -->
+<div id="modal-nar-kvote" class="ansatt-modal-overlay ansatt-modal-overlay--hidden" onclick="if(event.target===this)lukkModalNarKvote();">
+  <div class="ansatt-modal-box">
+    <div class="ansatt-modal-inner">
+      <div class="ansatt-modal-header">
+        <p class="ansatt-modal-title">Ansatte nær fraværskvoter</p>
+        <div class="ansatt-modal-status">
+          <span class="ansatt-modal-status-dot"></span>
+          <span>11 ansatte</span>
+        </div>
+      </div>
+      <button class="ansatt-modal-close" onclick="lukkModalNarKvote();" aria-label="Lukk">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="ansatt-table-wrap">
+        <div class="ansatt-modal-search-row">
+          <input class="ansatt-modal-search" type="text" placeholder="Søk etter ansatt…">
+        </div>
+        <table class="ansatt-modal-table">
+        <thead>
+          <tr>
+            <th>Ansatt <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Egenmeldingskvote <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Omsorgsdager kvote <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#D8D2E9;">IR</div>Ingrid Reigstad</div></td>
+            <td>1/4 perioder og 3/12 dager</td>
+            <td>9/10</td>
+          </tr>
+          <tr>
+            <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#C8E6C9;">KL</div>Kari Laurstad</div></td>
+            <td><strong>3/4 perioder og 8/12 dager</strong></td>
+            <td>–</td>
+          </tr>
+          <tr>
+            <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#B3D9F5;">MJ</div>Martin Johnsen</div></td>
+            <td><strong>3/4 perioder og 8/12 dager</strong></td>
+            <td>–</td>
+          </tr>
+          <tr>
+            <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#F5D0B3;">JJ</div>Jeanette Johnsrud</div></td>
+            <td><strong>3/4 perioder og 7/12 dager</strong></td>
+            <td>2/10</td>
+          </tr>
+          <tr>
+            <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#FFE0B2;">OP</div>Olav Pedersen</div></td>
+            <td><strong>3/4 perioder og 9/12 dager</strong></td>
+            <td>1/10</td>
+          </tr>
+          <tr>
+            <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#B2DFDB;">JP</div>Jens Pettersen</div></td>
+            <td><strong>3/4 perioder og 9/12 dager</strong></td>
+            <td>–</td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ansatt-modal-footer">
+      <button class="btn btn--primary" onclick="lukkModalNarKvote();">Lukk</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Antall egenmeldingsdager -->
+<div id="modal-egenmeldingsdager" class="ansatt-modal-overlay ansatt-modal-overlay--hidden" onclick="if(event.target===this)lukkModalEgenmeldingsdager();">
+  <div class="ansatt-modal-box">
+    <div class="ansatt-modal-inner">
+      <div class="ansatt-modal-header">
+        <p class="ansatt-modal-title">Antall egenmeldingsdager</p>
+        <p style="font:14px/1.4 'Rubik',sans-serif;color:var(--atl-color-grey-60);">12 dager fordelt på 6 ansatte</p>
+      </div>
+      <button class="ansatt-modal-close" onclick="lukkModalEgenmeldingsdager();" aria-label="Lukk">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="ansatt-table-wrap">
+        <div class="ansatt-modal-search-row">
+          <input class="ansatt-modal-search" type="text" placeholder="Søk etter ansatt…">
+        </div>
+        <table class="ansatt-modal-table">
+          <thead>
+            <tr>
+              <th>Ansatt <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th style="text-align:right;">Egenmeldingsdager <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#D8D2E9;">IR</div>Ingrid Reigstad</div></td>
+              <td style="text-align:right;">1</td>
+            </tr>
+            <tr>
+              <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#C8E6C9;">KL</div>Kari Laurstad</div></td>
+              <td style="text-align:right;">3</td>
+            </tr>
+            <tr>
+              <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#B3D9F5;">MJ</div>Martin Johnsen</div></td>
+              <td style="text-align:right;">2</td>
+            </tr>
+            <tr>
+              <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#F5D0B3;">JJ</div>Jeanette Johnsrud</div></td>
+              <td style="text-align:right;">2</td>
+            </tr>
+            <tr>
+              <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#FFE0B2;">OP</div>Olav Pedersen</div></td>
+              <td style="text-align:right;">1</td>
+            </tr>
+            <tr>
+              <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#B2DFDB;">JP</div>Jens Pettersen</div></td>
+              <td style="text-align:right;">3</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ansatt-modal-footer">
+      <button class="btn btn--primary" onclick="lukkModalEgenmeldingsdager();">Lukk</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ansatte over fraværskvoter -->
+<div id="modal-over-kvote" class="ansatt-modal-overlay ansatt-modal-overlay--hidden" onclick="if(event.target===this)lukkModalOverKvote();">
+  <div class="ansatt-modal-box">
+    <div class="ansatt-modal-inner">
+      <div class="ansatt-modal-header">
+        <p class="ansatt-modal-title">Ansatte over fraværskvoter</p>
+        <div class="ansatt-modal-status">
+          <span class="ansatt-modal-status-dot" style="background:#e83645;"></span>
+          <span>3 ansatte</span>
+        </div>
+      </div>
+      <button class="ansatt-modal-close" onclick="lukkModalOverKvote();" aria-label="Lukk">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="ansatt-table-wrap">
+        <div class="ansatt-modal-search-row">
+          <input class="ansatt-modal-search" type="text" placeholder="Søk etter ansatt…">
+        </div>
+        <table class="ansatt-modal-table">
+          <thead>
+            <tr>
+              <th>Ansatt <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Egenmeldingskvote <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Omsorgsdager kvote <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-left:2px;"><path d="M4 5.5l3-3 3 3M4 8.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#D8D2E9;">IR</div>Ingrid Reigstad</div></td>
+              <td>1/4 perioder og 3/12 dager</td>
+              <td><strong>9/10</strong></td>
+            </tr>
+            <tr>
+              <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#C8E6C9;">KL</div>Kari Laurstad</div></td>
+              <td><strong>3/4 perioder og 8/12 dager</strong></td>
+              <td>–</td>
+            </tr>
+            <tr>
+              <td><div class="ansatt-avatar-cell"><div class="ansatt-avatar" style="background:#B3D9F5;">MJ</div>Martin Johnsen</div></td>
+              <td><strong>3/4 perioder og 8/12 dager</strong></td>
+              <td>–</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ansatt-modal-footer">
+      <button class="btn btn--primary" onclick="lukkModalOverKvote();">Lukk</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
