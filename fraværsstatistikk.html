@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fraværsstatistikk – Tripletex</title>
+<link rel="stylesheet" href="https://cdn.tripletex.no/google-fonts/rubik-400-500-800.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --atl-color-white: #ffffff;
+    --atl-color-bg: #f7f8fc;
+    --atl-color-blue-5: #f2f5ff;
+    --atl-color-blue-10: #e6ebff;
+    --atl-color-blue-20: #ced9fe;
+    --atl-color-blue-60: #6c8dfc;
+    --atl-color-blue-80: #3b67fb;
+    --atl-color-blue-100: #0a41fa;
+    --atl-color-grey-5: #f4f5f6;
+    --atl-color-grey-10: #e9eaed;
+    --atl-color-grey-20: #d5d7db;
+    --atl-color-grey-40: #abafb7;
+    --atl-color-grey-60: #818794;
+    --atl-color-grey-80: #51596a;
+    --atl-color-grey-100: #2e384d;
+    --atl-color-green-5: #f4fbf4;
+    --atl-color-green-40: #addeab;
+    --atl-color-green-80: #5bbc57;
+    --atl-color-green-100: #33ac2e;
+    --atl-color-red-5: #fef4f5;
+    --atl-color-red-40: #f6aeb4;
+    --atl-color-red-100: #e83645;
+    --atl-color-yellow-5: #fffcf5;
+    --atl-color-yellow-10: #fff9ea;
+    --atl-color-yellow-40: #fce6af;
+    --atl-color-yellow-100: #f7c137;
+    --atl-border-radius: 4px;
+    --atl-font-normal: 400;
+    --atl-font-medium: 500;
+    --atl-text-sm: 14px/20px "Rubik", sans-serif;
+    --atl-text-lg: 16px/1.3 "Rubik", sans-serif;
+  }
+
+  body { font: var(--atl-text-sm); font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); background: var(--atl-color-bg); height: 100vh; overflow: hidden; }
+
+  /* ── App shell ───────────────────────────────────── */
+  .shell { display: flex; flex-direction: column; height: 100vh; }
+
+  /* ── Topbar ──────────────────────────────────────── */
+  .topbar { height: 48px; background: #D8EAEB; display: flex; align-items: center; padding: 0 8px 0 12px; flex-shrink: 0; z-index: 100; }
+  .tb-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+  .tb-icon-btn { width: 32px; height: 32px; background: none; border: none; cursor: default; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--atl-color-grey-100); flex-shrink: 0; }
+  .tb-icon-btn svg { width: 17px; height: 17px; }
+  .tb-logo { font: 500 17px/1 "Rubik", sans-serif; color: var(--atl-color-grey-100); letter-spacing: -0.5px; flex-shrink: 0; }
+  .tb-sep { width: 1px; height: 18px; background: var(--atl-color-grey-20); flex-shrink: 0; margin: 0 4px; }
+  .tb-company { display: flex; align-items: center; gap: 6px; }
+  .tb-company-badge { width: 22px; height: 22px; border-radius: 50%; background: var(--atl-color-blue-100); color: #fff; font: 600 11px/1 "Rubik", sans-serif; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tb-company-name { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .tb-right { display: flex; align-items: center; gap: 2px; }
+  .tb-search { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 99px; font: var(--atl-text-sm); color: var(--atl-color-grey-60); width: 128px; margin-right: 6px; cursor: default; flex-shrink: 0; }
+  .tb-assistant { height: 30px; padding: 0 10px; background: #E9F5F5; border: none; border-radius: 4px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); cursor: default; display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; margin-right: 4px; }
+
+  .shell-body { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ─────────────────────────────────────── */
+  .sidebar { width: 222px; background: #F7F8FC; border-right: 1px solid var(--atl-color-grey-10); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; padding: 4px 0; }
+  .nav-item { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; margin: 1px 6px; border-radius: 5px; font: var(--atl-text-sm); color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; overflow: hidden; }
+  .nav-item:hover { background: var(--atl-color-grey-5); color: var(--atl-color-grey-100); }
+  .nav-item--active { background: transparent; color: var(--atl-color-grey-100); font-weight: var(--atl-font-normal); }
+  .nav-icon { width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: inherit; }
+  .nav-item--active .nav-icon { width: 24px; height: 24px; background: var(--atl-color-blue-100); border-radius: 5px; color: #fff; }
+  .nav-sub { display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 10px 0 34px; margin: 0 6px; border-radius: 5px; font: 12px/1 "Rubik", sans-serif; color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; }
+  .nav-sub:hover { background: var(--atl-color-grey-5); color: var(--atl-color-grey-100); }
+  .nav-sub--active { color: var(--atl-color-grey-100); font-weight: var(--atl-font-medium); }
+  .nav-bullet { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  /* ── Main content ────────────────────────────────── */
+  .main-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+  .page { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 28px 16px 16px; gap: 28px; }
+
+  .page-header { display: flex; align-items: center; justify-content: space-between; padding: 0; flex-shrink: 0; }
+  .page-title { font: 24px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); }
+  .page-actions { display: flex; gap: 8px; }
+
+  /* ── Buttons ─────────────────────────────────────── */
+  .btn { height: 36px; padding: 0 16px; border-radius: var(--atl-border-radius); font: var(--atl-text-sm); font-weight: var(--atl-font-normal); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border: 1px solid transparent; text-decoration: none; }
+  .btn--primary { background: var(--atl-color-blue-100); color: var(--atl-color-white); border-color: var(--atl-color-blue-100); }
+  .btn--primary:hover { background: var(--atl-color-blue-80); border-color: var(--atl-color-blue-80); }
+  .btn--secondary { background: var(--atl-color-white); color: var(--atl-color-grey-100); border-color: var(--atl-color-grey-20); }
+  .btn--secondary:hover { background: var(--atl-color-grey-5); }
+
+  /* ── Alert ───────────────────────────────────────── */
+  .alert { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--atl-border-radius); border: 1px solid; font: var(--atl-text-sm); flex-shrink: 0; }
+  .alert--warning { background: #FFFCF5; border-color: var(--atl-color-yellow-40); }
+  .alert-link { color: var(--atl-color-blue-100); text-decoration: none; }
+  .alert-link:hover { text-decoration: underline; }
+
+  /* ── Content body ────────────────────────────────── */
+  .content-body { flex-shrink: 0; display: flex; flex-direction: column; background: #F7F8FC; padding: 0; }
+  .split-section { background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 4px; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── Filter bar (inside split-section) ──────────── */
+  .filter-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--atl-color-white); border-bottom: 1px solid var(--atl-color-grey-20); flex-shrink: 0; flex-wrap: wrap; }
+  .filter-bar-left { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
+  .filter-bar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+  .filter-btn { height: 36px; padding: 0 12px; background: #E6EBFF; border: 1px solid #E6EBFF; border-radius: var(--atl-border-radius); font: var(--atl-text-sm); color: var(--atl-color-blue-100); cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .filter-btn:hover { background: #d0d9ff; border-color: #d0d9ff; }
+
+  .filter-select { height: 36px; border: 1px solid var(--atl-color-grey-20); border-radius: var(--atl-border-radius); padding: 0 28px 0 10px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); background: #F7F8FC url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23818794' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 8px center; appearance: none; cursor: pointer; }
+
+  /* Period navigator — label left, both arrows right */
+  .period-nav { display: flex; border: 1px solid var(--atl-color-grey-20); border-radius: var(--atl-border-radius); overflow: hidden; background: #F7F8FC; }
+  .period-nav-label { height: 36px; padding: 0 12px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); display: flex; align-items: center; white-space: nowrap; border-right: 1px solid var(--atl-color-grey-20); }
+  .period-nav-arrows { display: flex; }
+  .period-nav-btn { width: 28px; height: 36px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--atl-color-grey-60); }
+  .period-nav-btn:hover { background: var(--atl-color-grey-5); color: var(--atl-color-grey-100); }
+  .period-nav-btn + .period-nav-btn { border-left: 1px solid var(--atl-color-grey-20); }
+
+  /* Content switcher */
+  .content-switcher { display: flex; }
+  .cs-btn { height: 36px; padding: 0 12px; background: #F7F8FC; border: 1px solid var(--atl-color-grey-20); font: var(--atl-text-sm); color: var(--atl-color-grey-100); cursor: pointer; white-space: nowrap; position: relative; }
+  .cs-btn:first-child { border-radius: var(--atl-border-radius) 0 0 var(--atl-border-radius); }
+  .cs-btn:last-child { border-radius: 0 var(--atl-border-radius) var(--atl-border-radius) 0; margin-left: -1px; }
+  .cs-btn:not(:first-child):not(:last-child) { margin-left: -1px; }
+  .cs-btn--active { border-color: var(--atl-color-blue-100); color: var(--atl-color-blue-100); font-weight: var(--atl-font-medium); z-index: 1; }
+
+  .icon-btn { width: 36px; height: 36px; background: none; border: none; border-radius: var(--atl-border-radius); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--atl-color-grey-100); }
+  .icon-btn:hover { background: var(--atl-color-grey-5); }
+
+  /* ── Stats table ─────────────────────────────────── */
+  .stats-table { width: 100%; border-collapse: collapse; font: var(--atl-text-sm); table-layout: fixed; }
+  .stats-table th { text-align: left; padding: 12px 10px; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); border-bottom: 1px solid var(--atl-color-grey-20); background: #F2F5FF; }
+  .stats-table td { padding: 8px 10px; vertical-align: middle; border-bottom: 1px solid var(--atl-color-grey-10); color: var(--atl-color-grey-100); }
+  .stats-table tr:hover td { background: none; }
+  .stats-table .sum-row td { font-weight: var(--atl-font-medium); padding: 12px 10px; border-top: 1px solid var(--atl-color-grey-20); border-bottom: none; background: var(--atl-color-white); }
+
+  .td-employee { display: flex; align-items: center; gap: 8px; }
+  .emp-initials { width: 22px; height: 22px; border-radius: 50%; background: #D8D2E9; display: inline-flex; align-items: center; justify-content: center; font: 10px/1 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); flex-shrink: 0; }
+
+  .td-days { display: flex; align-items: center; gap: 6px; }
+  .chip { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; background: var(--atl-color-grey-5); border: 1px solid var(--atl-color-grey-20); border-radius: 99px; font: 12px/1 "Rubik", sans-serif; color: var(--atl-color-grey-100); white-space: nowrap; }
+
+  /* ── Dropdown panels ─────────────────────────────── */
+  .dp { position: fixed; z-index: 300; background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); display: none; }
+  .dp-sec { border-bottom: 1px solid var(--atl-color-grey-20); padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .dp-sec:last-child { border-bottom: none; }
+  .dp-head { display: flex; align-items: center; justify-content: space-between; min-height: 32px; }
+  .dp-title { font: var(--atl-text-sm); font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); }
+  .dp-link { font: var(--atl-text-sm); color: var(--atl-color-blue-100); cursor: pointer; background: none; border: none; padding: 0; }
+  .dp-row-actions { display: flex; justify-content: space-between; }
+  .dp-field { display: flex; flex-direction: column; gap: 8px; }
+  .dp-field-label { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .dp-field-select { height: 40px; border: 1px solid var(--atl-color-grey-60); border-radius: 4px; padding: 0 32px 0 12px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); background: #F7F8FC url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23818794' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center; appearance: none; width: 100%; }
+
+  /* Filter preset cards */
+  .filter-preset-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filter-preset { position: relative; width: 171.5px; border: 1px solid var(--atl-color-grey-20); border-radius: 4px; background: #F7F8FC; padding: 12px 36px 12px 8px; display: flex; gap: 8px; align-items: center; font: var(--atl-text-sm); color: var(--atl-color-grey-100); cursor: default; }
+  .filter-preset-more { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--atl-color-grey-60); }
+  .filter-preset-more:hover { background: var(--atl-color-grey-10); }
+
+  /* Toggle */
+  .toggle { display: inline-flex; width: 36px; height: 18px; border-radius: 99px; flex-shrink: 0; position: relative; cursor: pointer; }
+  .toggle--on { background: var(--atl-color-blue-100); }
+  .toggle--off { background: var(--atl-color-grey-40); }
+  .toggle::after { content: ''; position: absolute; top: 3px; width: 12px; height: 12px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+  .toggle--on::after { left: 21px; }
+  .toggle--off::after { left: 3px; }
+
+  /* Settings view rows */
+  .sv-group-label { height: 28px; display: flex; align-items: flex-end; padding: 0 8px 4px; font: var(--atl-text-sm); color: var(--atl-color-grey-60); }
+  .sv-divider { border: none; border-top: 1px solid var(--atl-color-grey-20); margin: 4px 4px 0; }
+  .sv-row { display: flex; align-items: center; gap: 8px; height: 40px; padding: 4px 8px; border-radius: 4px; }
+  .sv-row:hover { background: var(--atl-color-grey-5); }
+  .sv-label { flex: 1; font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .drag-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: var(--atl-color-grey-40); flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="tb-icon-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect y="2.5" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="7" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="11.5" width="16" height="1.5" rx="0.75" fill="currentColor"/></svg></button>
+      <span class="tb-logo">tripletex</span>
+      <div class="tb-sep"></div>
+      <div class="tb-company">
+        <span class="tb-company-badge">T</span>
+        <span class="tb-company-name">Tripletex AS</span>
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-search"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M9.5 9.5L12.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Søk</div>
+      <button class="tb-assistant">Assistent ✦</button>
+      <button class="tb-icon-btn" title="Favoritter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5 3.7.5-2.7 2.6.6 3.7L8 10.5l-3.1 1.8.6-3.7L3 5.5l3.7-.5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Last ned"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2.5v7M5.5 7l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Varsler"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 003.5 6v3L2 11h12l-1.5-2V6A4.5 4.5 0 008 1.5z" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      <button class="tb-icon-btn" title="Meldinger"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 13.5l1.5-2h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Hjelp"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 6.5a2 2 0 114 0c0 1.5-2 1.5-2 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Kunngjøringer"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1 3H13l-2.5 2 1 3L8 8.5 4.5 10l1-3L3 5h4L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Rapporter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5L13 5.5V14H3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 2v4h4M6 9h4M6 11.5h2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" style="width:28px;height:28px;background:var(--atl-color-grey-10);border-radius:50%;" title="Bruker"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+
+  <!-- Shell body -->
+  <div class="shell-body">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <a class="nav-item" href="#"><span class="nav-icon" style="color:#f7c137;"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5l1.6 3.6 3.9.6-2.8 2.7.7 3.9L8 10.5l-3.4 1.8.7-3.9L2.5 5.7l3.9-.6L8 1.5z"/></svg></span>Favoritter</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 7.5l6-5 6 5V14H10.5v-4h-5v4H2V7.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Hjem</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Klient</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Timeliste</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8.5L2 13l1.5-4.5L2 4l11.5 4.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Reiser og utlegg</a>
+      <div class="nav-item nav-item--active"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Ferie og fravær</div>
+      <a class="nav-sub" href="varsel.html"><span class="nav-bullet"></span>Avstemming av NAV-refusjoner</a>
+      <a class="nav-sub nav-sub--active" href="fraværsstatistikk.html"><span class="nav-bullet"></span>Fraværsstatistikk</a>
+      <a class="nav-sub" href="uke-28/fraværsoversikt.html"><span class="nav-bullet"></span>Fraværsoversikt</a>
+      <a class="nav-sub" href="uke-28/avstemming.html"><span class="nav-bullet"></span>Avstemming av refusjoner</a>
+      <div class="nav-sub"><span class="nav-bullet"></span>Inntektsmeldinger</div>
+      <div class="nav-sub"><span class="nav-bullet"></span>Innstillinger</div>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h8l2 2v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M10 2v3H5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Bilag</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="7" width="12" height="7" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M4 7V5M8 7V5M12 7V5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M1.5 5h13l-6.5-3L1.5 5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Bank</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></span>Regnskap</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 12V8M7 12V5M11 12V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Rapporter</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L2.5 5v6L8 14l5.5-3V5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 2v12M2.5 5L8 8l5.5-3" stroke="currentColor" stroke-width="1.3"/></svg></span>Prosjekt</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h10v13l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 7h5M5.5 9.5h5M5.5 5h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Faktura</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 13c0-2.5 2.2-4.5 5-4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="11.5" cy="10" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 8.5v1.5l1 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Kunde</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4.5" width="12" height="7.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.5v1M6.5 8.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Lønn</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2.5 2.5L11 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Oppgave</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5L13 5.5V14H3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 2v4h4" stroke="currentColor" stroke-width="1.3"/></svg></span>Dokument</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M7 4.5h2V7M9 7v2H7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Integrasjoner</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5.5 10.5h5M8 9v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Årsoppgjør</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 6V5a2.5 2.5 0 015 0v1" stroke="currentColor" stroke-width="1.3"/></svg></span>Selskap</a>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="page">
+
+        <!-- Page header -->
+        <div class="page-header">
+          <h1 class="page-title">Fraværsstatistikk</h1>
+          <div class="page-actions">
+            <a href="innsendte-ssb-rapporter.html" class="btn" style="background:#E6EBFF;color:var(--atl-color-blue-100);border-color:transparent;">Importer SSB-rapporter</a>
+            <a href="send-ssb-rapport.html" class="btn btn--primary">
+              Send SSB-rapport
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Warning alert -->
+        <div class="alert alert--warning">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L1.5 13.5h13L8 2z" stroke="var(--atl-color-grey-80)" stroke-width="1.4" stroke-linejoin="round" fill="var(--atl-color-grey-80)" fill-opacity="0.15"/><path d="M8 6.5v3" stroke="var(--atl-color-grey-80)" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r="0.75" fill="var(--atl-color-grey-80)"/></svg>
+          1 fravær har ikke blitt godkjent og vises derfor ikke i statistikken.
+          <a href="#" class="alert-link">Åpne fraværer</a>
+        </div>
+
+        <!-- Content body -->
+        <div class="content-body">
+          <div class="split-section">
+
+            <!-- Filter bar -->
+            <div class="filter-bar">
+              <div class="filter-bar-left">
+                <button class="filter-btn" onclick="aapneFilter(this)">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  Filter
+                </button>
+                <select class="filter-select"><option>Alle ansatte</option></select>
+                <select class="filter-select"><option>Alle kjønn</option><option>Kvinner</option><option>Menn</option></select>
+                <div class="period-nav">
+                  <span class="period-nav-label">Mars 2026</span>
+                  <div class="period-nav-arrows">
+                    <button class="period-nav-btn" title="Forrige periode"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8 10L4 6l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <button class="period-nav-btn" title="Neste periode"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+                <div class="content-switcher">
+                  <button class="cs-btn" onclick="byttVisning(this)">Visualiseringer</button>
+                  <button class="cs-btn" onclick="byttVisning(this)">Ansatte (oversikt)</button>
+                  <button class="cs-btn cs-btn--active" onclick="byttVisning(this)">Ansatte (alle fraværstyper)</button>
+                </div>
+              </div>
+              <div class="filter-bar-right">
+                <button class="icon-btn" title="Last ned">
+                  <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M8 2.5v7M5.5 7l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <button class="icon-btn" title="Innstillinger" data-settings onclick="aapneInnstillinger(this)">
+                  <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6.8 1.5h2.4l.3 1.4.9.4 1.2-.8 1.7 1.7-.8 1.2.4.9 1.4.3v2.4l-1.4.3-.4.9.8 1.2-1.7 1.7-1.2-.8-.9.4-.3 1.4H6.8l-.3-1.4-.9-.4-1.2.8-1.7-1.7.8-1.2-.4-.9-1.4-.3V6.8l1.4-.3.4-.9-.8-1.2 1.7-1.7 1.2.8.9-.4.3-1.4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Statistics table -->
+            <table class="stats-table">
+              <thead>
+                  <tr>
+                    <th>Ansatt</th>
+                    <th>Egenmeldinger</th>
+                    <th>Sykt barn</th>
+                    <th>Sykemeldt</th>
+                    <th>Permisjon</th>
+                    <th>Alt fravær</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials">IR</span>Ingrid Reigstad</div></td>
+                    <td><div class="td-days"><span>2 dager</span><span class="chip">5,5 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>2 dager</span><span class="chip">5,5 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>2 dager</span><span class="chip">5,5 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#C8E6C9;">AL</span>Ari Laurila</div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#B3D9F5;">MJ</span>Martin Johnsen</div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#F5D0B3;">JJ</span>Jeanette Jimmerud</div></td>
+                    <td><div class="td-days"><span>3 dager</span><span class="chip">8,3 %</span></div></td>
+                    <td><div class="td-days"><span>3 dager</span><span class="chip">8,3 %</span></div></td>
+                    <td><div class="td-days"><span>3 dager</span><span class="chip">8,3 %</span></div></td>
+                    <td><div class="td-days"><span>30 dager</span><span class="chip">83,3 %</span></div></td>
+                    <td><div class="td-days"><span>30 dager</span><span class="chip">83,3 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#D8D2E9;">OP</span>Olav Pedersen</div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>5 dager</span><span class="chip">13,9 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#FFE0B2;">KH</span>Kari Hansen</div></td>
+                    <td><div class="td-days"><span>1 dag</span><span class="chip">2,8 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>10 dager</span><span class="chip">27,8 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>11 dager</span><span class="chip">30,6 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#B2DFDB;">TN</span>Turid Nilsen</div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>2 dager</span><span class="chip">5,6 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>2 dager</span><span class="chip">5,6 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#F8BBD9;">SB</span>Silje Berg</div></td>
+                    <td><div class="td-days"><span>3 dager</span><span class="chip">8,3 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>3 dager</span><span class="chip">8,3 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#CFD8DC;">EA</span>Erik Andersen</div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>15 dager</span><span class="chip">41,7 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>15 dager</span><span class="chip">41,7 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#E1BEE7;">LM</span>Lena Moe</div></td>
+                    <td><div class="td-days"><span>2 dager</span><span class="chip">5,6 %</span></div></td>
+                    <td><div class="td-days"><span>4 dager</span><span class="chip">11,1 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>6 dager</span><span class="chip">16,7 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#BBDEFB;">PK</span>Petter Kristiansen</div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>20 dager</span><span class="chip">55,6 %</span></div></td>
+                    <td><div class="td-days"><span>20 dager</span><span class="chip">55,6 %</span></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-employee"><span class="emp-initials" style="background:#DCEDC8;">HV</span>Hanne Vold</div></td>
+                    <td><div class="td-days"><span>4 dager</span><span class="chip">11,1 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>0 dager</span><span class="chip">0 %</span></div></td>
+                    <td><div class="td-days"><span>4 dager</span><span class="chip">11,1 %</span></div></td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr class="sum-row">
+                    <td style="color:var(--atl-color-grey-80);">Sum / 12 ansatte</td>
+                    <td><div class="td-days"><span>25 dager</span><span class="chip">5,8 %</span></div></td>
+                    <td><div class="td-days"><span>19 dager</span><span class="chip">4,4 %</span></div></td>
+                    <td><div class="td-days"><span>40 dager</span><span class="chip">9,3 %</span></div></td>
+                    <td><div class="td-days"><span>50 dager</span><span class="chip">11,6 %</span></div></td>
+                    <td><div class="td-days"><span>105 dager</span><span class="chip">24,4 %</span></div></td>
+                  </tr>
+                </tfoot>
+              </table>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Success toast -->
+<div id="toast-success" style="display:none; position:fixed; top:16px; right:16px; z-index:400; width:340px; background:#fff; border:1px solid var(--atl-color-grey-20); border-radius:4px; padding:14px 16px; gap:10px; align-items:flex-start; box-shadow:0 4px 16px rgba(0,0,0,0.10);">
+  <div style="flex:1; display:flex; flex-direction:column; gap:2px;">
+    <span style="font:500 14px/20px 'Rubik',sans-serif; color:#2e384d;">SSB-rapport sendt</span>
+    <span style="font:14px/20px 'Rubik',sans-serif; color:#818794;">Egenmeldinger ble rapportert til SSB</span>
+  </div>
+  <button onclick="this.parentElement.style.display='none'" style="background:none;border:none;cursor:pointer;color:#818794;display:flex;align-items:center;padding:0;flex-shrink:0;margin-top:2px;">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+  </button>
+</div>
+
+<!-- Filter overlay -->
+<div id="filter-overlay" class="dp" style="width:375px;">
+  <div class="dp-sec">
+    <div class="dp-head">
+      <span class="dp-title">Saved filters</span>
+      <button class="icon-btn" style="width:32px;height:32px;">
+        <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M10 6L6 2 2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="filter-preset-grid">
+      <div class="filter-preset">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Årsrapport
+        <button class="filter-preset-more"><svg width="4" height="14" viewBox="0 0 4 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/></svg></button>
+      </div>
+      <div class="filter-preset">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        SSB-rapport
+        <button class="filter-preset-more"><svg width="4" height="14" viewBox="0 0 4 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <div class="dp-sec">
+    <div class="dp-head"><span class="dp-title">Filter options</span></div>
+    <div class="dp-row-actions">
+      <button class="dp-link">Save filter</button>
+      <button class="dp-link">Reset filters</button>
+    </div>
+  </div>
+  <div class="dp-sec">
+    <div class="dp-field">
+      <span class="dp-field-label">Avdelinger *</span>
+      <select class="dp-field-select"><option>(Alle avdelinger)</option><option>Salg</option><option>IT</option><option>HR</option></select>
+    </div>
+    <div class="dp-field">
+      <span class="dp-field-label">Fraværstyper *</span>
+      <select class="dp-field-select"><option>(Alle fraværstyper)</option><option>Egenmelding</option><option>Sykt barn</option><option>Sykemeldt</option><option>Permisjon</option></select>
+    </div>
+  </div>
+</div>
+
+<!-- Settings overlay -->
+<div id="settings-overlay" class="dp" style="width:320px; background:#F7F8FC; border-color:var(--atl-color-grey-60);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px 4px 16px;border-bottom:1px solid var(--atl-color-grey-20);min-height:44px;">
+    <span style="font:var(--atl-text-sm);font-weight:var(--atl-font-medium);color:var(--atl-color-grey-100);">View</span>
+    <button class="dp-link" style="padding:8px 12px;">Reset all</button>
+  </div>
+  <div style="padding:4px;">
+    <div class="sv-group-label">Display settings</div>
+    <div class="sv-row">
+      <span class="toggle toggle--on"></span>
+      <span class="sv-label">Vis fraværsprosent</span>
+    </div>
+    <hr class="sv-divider">
+    <div class="sv-group-label" style="height:32px;">Columns</div>
+    <div class="sv-row">
+      <span class="drag-icon"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.3"/><circle cx="6" cy="2" r="1.3"/><circle cx="2" cy="6" r="1.3"/><circle cx="6" cy="6" r="1.3"/><circle cx="2" cy="10" r="1.3"/><circle cx="6" cy="10" r="1.3"/></svg></span>
+      <span class="sv-label">Alt fravær</span>
+      <span class="toggle toggle--on"></span>
+    </div>
+    <div class="sv-row">
+      <span class="drag-icon"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.3"/><circle cx="6" cy="2" r="1.3"/><circle cx="2" cy="6" r="1.3"/><circle cx="6" cy="6" r="1.3"/><circle cx="2" cy="10" r="1.3"/><circle cx="6" cy="10" r="1.3"/></svg></span>
+      <span class="sv-label">Egenmeldingskvote</span>
+      <span class="toggle toggle--off"></span>
+    </div>
+    <div class="sv-row">
+      <span class="drag-icon"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.3"/><circle cx="6" cy="2" r="1.3"/><circle cx="2" cy="6" r="1.3"/><circle cx="6" cy="6" r="1.3"/><circle cx="2" cy="10" r="1.3"/><circle cx="6" cy="10" r="1.3"/></svg></span>
+      <span class="sv-label">Omsorgsdager kvote</span>
+      <span class="toggle toggle--off"></span>
+    </div>
+    <div class="sv-row">
+      <span class="drag-icon"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.3"/><circle cx="6" cy="2" r="1.3"/><circle cx="2" cy="6" r="1.3"/><circle cx="6" cy="6" r="1.3"/><circle cx="2" cy="10" r="1.3"/><circle cx="6" cy="10" r="1.3"/></svg></span>
+      <span class="sv-label">Egenmelding</span>
+      <span class="toggle toggle--on"></span>
+    </div>
+    <div class="sv-row">
+      <span class="drag-icon"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.3"/><circle cx="6" cy="2" r="1.3"/><circle cx="2" cy="6" r="1.3"/><circle cx="6" cy="6" r="1.3"/><circle cx="2" cy="10" r="1.3"/><circle cx="6" cy="10" r="1.3"/></svg></span>
+      <span class="sv-label">Sykt barn</span>
+      <span class="toggle toggle--on"></span>
+    </div>
+    <div class="sv-row">
+      <span class="drag-icon"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.3"/><circle cx="6" cy="2" r="1.3"/><circle cx="2" cy="6" r="1.3"/><circle cx="6" cy="6" r="1.3"/><circle cx="2" cy="10" r="1.3"/><circle cx="6" cy="10" r="1.3"/></svg></span>
+      <span class="sv-label">Sykemeldt</span>
+      <span class="toggle toggle--on"></span>
+    </div>
+    <div class="sv-row">
+      <span class="drag-icon"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.3"/><circle cx="6" cy="2" r="1.3"/><circle cx="2" cy="6" r="1.3"/><circle cx="6" cy="6" r="1.3"/><circle cx="2" cy="10" r="1.3"/><circle cx="6" cy="10" r="1.3"/></svg></span>
+      <span class="sv-label">Permisjon</span>
+      <span class="toggle toggle--on"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  function byttVisning(btn) {
+    btn.closest('.content-switcher').querySelectorAll('.cs-btn').forEach(function(b) {
+      b.classList.remove('cs-btn--active');
+    });
+    btn.classList.add('cs-btn--active');
+  }
+
+  function aapneFilter(btn) {
+    var overlay = document.getElementById('filter-overlay');
+    var settings = document.getElementById('settings-overlay');
+    settings.style.display = 'none';
+    if (overlay.style.display === 'block') { overlay.style.display = 'none'; return; }
+    var r = btn.getBoundingClientRect();
+    overlay.style.top = (r.bottom + 4) + 'px';
+    overlay.style.left = r.left + 'px';
+    overlay.style.display = 'block';
+  }
+
+  function aapneInnstillinger(btn) {
+    var overlay = document.getElementById('settings-overlay');
+    var filter = document.getElementById('filter-overlay');
+    filter.style.display = 'none';
+    if (overlay.style.display === 'block') { overlay.style.display = 'none'; return; }
+    var r = btn.getBoundingClientRect();
+    overlay.style.top = (r.bottom + 4) + 'px';
+    overlay.style.left = 'auto';
+    overlay.style.right = (window.innerWidth - r.right) + 'px';
+    overlay.style.display = 'block';
+  }
+
+  document.addEventListener('click', function(e) {
+    var fo = document.getElementById('filter-overlay');
+    var so = document.getElementById('settings-overlay');
+    if (fo.style.display === 'block' && !fo.contains(e.target) && !e.target.closest('.filter-btn')) fo.style.display = 'none';
+    if (so.style.display === 'block' && !so.contains(e.target) && !e.target.closest('[data-settings]')) so.style.display = 'none';
+  });
+
+  if (sessionStorage.getItem('ssb_sent') === '1') {
+    sessionStorage.removeItem('ssb_sent');
+    var toast = document.getElementById('toast-success');
+    toast.style.display = 'flex';
+    setTimeout(function() { toast.style.display = 'none'; }, 5000);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Innsendte SSB-rapporter – Tripletex</title>
+<link rel="stylesheet" href="https://cdn.tripletex.no/google-fonts/rubik-400-500-800.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --atl-color-white: #ffffff;
+    --atl-color-bg: #f7f8fc;
+    --atl-color-blue-5: #f2f5ff;
+    --atl-color-blue-10: #e6ebff;
+    --atl-color-blue-100: #0a41fa;
+    --atl-color-grey-5: #f4f5f6;
+    --atl-color-grey-10: #e9eaed;
+    --atl-color-grey-20: #d5d7db;
+    --atl-color-grey-40: #abafb7;
+    --atl-color-grey-60: #818794;
+    --atl-color-grey-80: #51596a;
+    --atl-color-grey-100: #2e384d;
+    --atl-border-radius: 4px;
+    --atl-font-normal: 400;
+    --atl-font-medium: 500;
+    --atl-text-sm: 14px/20px "Rubik", sans-serif;
+  }
+
+  body { font: var(--atl-text-sm); font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); background: var(--atl-color-bg); height: 100vh; overflow: hidden; }
+
+  /* ── App shell ───────────────────────────────────── */
+  .shell { display: flex; flex-direction: column; height: 100vh; }
+
+  /* ── Topbar ──────────────────────────────────────── */
+  .topbar { height: 48px; background: #D8EAEB; display: flex; align-items: center; padding: 0 8px 0 12px; flex-shrink: 0; z-index: 100; }
+  .tb-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+  .tb-icon-btn { width: 32px; height: 32px; background: none; border: none; cursor: default; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--atl-color-grey-100); flex-shrink: 0; }
+  .tb-icon-btn svg { width: 17px; height: 17px; }
+  .tb-logo { font: 500 17px/1 "Rubik", sans-serif; color: var(--atl-color-grey-100); letter-spacing: -0.5px; flex-shrink: 0; }
+  .tb-sep { width: 1px; height: 18px; background: var(--atl-color-grey-20); flex-shrink: 0; margin: 0 4px; }
+  .tb-company { display: flex; align-items: center; gap: 6px; }
+  .tb-company-badge { width: 22px; height: 22px; border-radius: 50%; background: var(--atl-color-blue-100); color: #fff; font: 600 11px/1 "Rubik", sans-serif; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tb-company-name { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .tb-right { display: flex; align-items: center; gap: 2px; }
+  .tb-search { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 99px; font: var(--atl-text-sm); color: var(--atl-color-grey-60); width: 128px; margin-right: 6px; cursor: default; flex-shrink: 0; }
+  .tb-assistant { height: 30px; padding: 0 10px; background: #E9F5F5; border: none; border-radius: 4px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); cursor: default; display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; margin-right: 4px; }
+
+  .shell-body { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ─────────────────────────────────────── */
+  .sidebar { width: 222px; background: #F7F8FC; border-right: 1px solid var(--atl-color-grey-10); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; padding: 4px 0; }
+  .nav-item { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; margin: 1px 6px; border-radius: 5px; font: var(--atl-text-sm); color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; overflow: hidden; }
+  .nav-item:hover { background: var(--atl-color-grey-5); color: var(--atl-color-grey-100); }
+  .nav-item--active { background: transparent; color: var(--atl-color-grey-100); font-weight: var(--atl-font-normal); }
+  .nav-icon { width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: inherit; }
+  .nav-item--active .nav-icon { width: 24px; height: 24px; background: var(--atl-color-blue-100); border-radius: 5px; color: #fff; }
+  .nav-sub { display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 10px 0 34px; margin: 0 6px; border-radius: 5px; font: 12px/1 "Rubik", sans-serif; color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; }
+  .nav-sub:hover { background: var(--atl-color-grey-5); color: var(--atl-color-grey-100); }
+  .nav-sub--active { color: var(--atl-color-grey-100); font-weight: var(--atl-font-medium); }
+  .nav-bullet { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  /* ── Main content ────────────────────────────────── */
+  .main-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+  .page { display: flex; flex-direction: column; padding: 24px; gap: 24px; }
+
+  /* ── Breadcrumb ──────────────────────────────────── */
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .breadcrumb-link { color: var(--atl-color-blue-100); text-decoration: none; }
+  .breadcrumb-link:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--atl-color-grey-60); }
+
+  /* ── Page header ─────────────────────────────────── */
+  .page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-header-left { display: flex; flex-direction: column; gap: 6px; }
+  .page-title { font: 30px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); }
+  .page-subtitle { font: var(--atl-text-sm); color: var(--atl-color-grey-60); }
+
+  /* ── Buttons ─────────────────────────────────────── */
+  .btn { height: 36px; padding: 0 16px; border-radius: var(--atl-border-radius); font: var(--atl-text-sm); font-weight: var(--atl-font-normal); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border: 1px solid transparent; text-decoration: none; white-space: nowrap; }
+  .btn--primary { background: var(--atl-color-blue-100); color: #fff; border-color: var(--atl-color-blue-100); }
+  .btn--primary:hover { background: #3b67fb; border-color: #3b67fb; }
+  .btn--secondary { background: var(--atl-color-white); color: var(--atl-color-grey-100); border-color: var(--atl-color-grey-20); }
+  .btn--secondary:hover { background: var(--atl-color-grey-5); }
+
+  /* ── Table card ──────────────────────────────────── */
+  .table-card { background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 4px; overflow: hidden; }
+
+  /* ── Search bar ──────────────────────────────────── */
+  .search-bar { display: flex; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--atl-color-grey-20); }
+  .search-input-wrap { position: relative; width: 200px; }
+  .search-input-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--atl-color-grey-60); pointer-events: none; }
+  .search-input { height: 36px; width: 100%; border: 1px solid var(--atl-color-grey-60); border-radius: 4px; padding: 0 10px 0 32px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); background: #F7F8FC; }
+  .search-input::placeholder { color: var(--atl-color-grey-60); }
+  .search-input:focus { outline: none; border-color: var(--atl-color-blue-100); }
+
+  /* ── Reports table ───────────────────────────────── */
+  .reports-table { width: 100%; border-collapse: collapse; font: var(--atl-text-sm); }
+  .reports-table th { background: var(--atl-color-blue-5); padding: 12px 16px; text-align: left; font-weight: var(--atl-font-normal); font-size: 14px; color: var(--atl-color-grey-100); border-bottom: 1px solid var(--atl-color-grey-20); white-space: nowrap; }
+  .reports-table th.col-sort { cursor: default; user-select: none; }
+  .th-sort { display: inline-flex; align-items: center; gap: 4px; }
+  .reports-table td { padding: 12px 16px; border-bottom: 1px solid var(--atl-color-grey-10); vertical-align: middle; }
+  .reports-table tr:last-child td { border-bottom: none; }
+  .reports-table tr:hover td { background: var(--atl-color-blue-5); cursor: pointer; }
+  .col-name { width: 100%; }
+  .col-date { white-space: nowrap; color: var(--atl-color-grey-80); }
+  .col-actions { width: 48px; text-align: right; }
+  .td-name { font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); }
+
+  .icon-btn { width: 32px; height: 32px; background: none; border: none; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--atl-color-grey-100); }
+  .icon-btn:hover { background: var(--atl-color-grey-10); }
+
+  /* ── Modal ───────────────────────────────────────── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 500; display: flex; align-items: center; justify-content: center; }
+  .modal-overlay--hidden { display: none; }
+  .modal-box { background: #fff; border-radius: 4px; width: 700px; max-width: calc(100vw - 48px); max-height: 90vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.18); padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+  .modal-header { display: flex; flex-direction: column; gap: 4px; position: relative; padding-right: 36px; }
+  .modal-title { font: 20px/1.3 "Rubik", sans-serif; font-weight: var(--atl-font-medium); color: var(--atl-color-grey-100); }
+  .modal-subtitle { font: var(--atl-text-sm); color: #6b7280; }
+  .modal-close { position: absolute; top: 0; right: 0; width: 28px; height: 28px; background: none; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--atl-color-grey-60); }
+  .modal-close:hover { background: var(--atl-color-grey-10); color: var(--atl-color-grey-100); }
+  .modal-table-wrap { border: 1px solid var(--atl-color-grey-20); border-radius: 4px; overflow: hidden; }
+  .modal-table { width: 100%; border-collapse: collapse; font: var(--atl-text-sm); }
+  .modal-table th { background: var(--atl-color-blue-5); padding: 10px 12px; font-weight: var(--atl-font-medium); font-size: 14px; color: var(--atl-color-grey-100); border-bottom: 1px solid var(--atl-color-grey-20); text-align: right; }
+  .modal-table th:first-child { text-align: left; }
+  .modal-table td { padding: 10px 12px; border-bottom: 1px solid var(--atl-color-grey-10); text-align: right; color: var(--atl-color-grey-100); }
+  .modal-table td:first-child { text-align: left; }
+  .modal-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="tb-icon-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect y="2.5" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="7" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="11.5" width="16" height="1.5" rx="0.75" fill="currentColor"/></svg></button>
+      <span class="tb-logo">tripletex</span>
+      <div class="tb-sep"></div>
+      <div class="tb-company">
+        <span class="tb-company-badge">T</span>
+        <span class="tb-company-name">Tripletex AS</span>
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-search"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M9.5 9.5L12.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Søk</div>
+      <button class="tb-assistant">Assistent ✦</button>
+      <button class="tb-icon-btn" title="Favoritter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5 3.7.5-2.7 2.6.6 3.7L8 10.5l-3.1 1.8.6-3.7L3 5.5l3.7-.5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Last ned"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2.5v7M5.5 7l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Varsler"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 003.5 6v3L2 11h12l-1.5-2V6A4.5 4.5 0 008 1.5z" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      <button class="tb-icon-btn" title="Meldinger"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 13.5l1.5-2h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Hjelp"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 6.5a2 2 0 114 0c0 1.5-2 1.5-2 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Kunngjøringer"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1 3H13l-2.5 2 1 3L8 8.5 4.5 10l1-3L3 5h4L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Rapporter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5L13 5.5V14H3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 2v4h4M6 9h4M6 11.5h2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" style="width:28px;height:28px;background:var(--atl-color-grey-10);border-radius:50%;" title="Bruker"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+
+  <!-- Shell body -->
+  <div class="shell-body">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <a class="nav-item" href="#"><span class="nav-icon" style="color:#f7c137;"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5l1.6 3.6 3.9.6-2.8 2.7.7 3.9L8 10.5l-3.4 1.8.7-3.9L2.5 5.7l3.9-.6L8 1.5z"/></svg></span>Favoritter</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 7.5l6-5 6 5V14H10.5v-4h-5v4H2V7.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Hjem</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Klient</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Timeliste</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8.5L2 13l1.5-4.5L2 4l11.5 4.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Reiser og utlegg</a>
+      <div class="nav-item nav-item--active"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Ferie og fravær</div>
+      <a class="nav-sub" href="varsel.html"><span class="nav-bullet"></span>Avstemming av NAV-refusjoner</a>
+      <a class="nav-sub" href="fraværsstatistikk.html"><span class="nav-bullet"></span>Fraværsstatistikk</a>
+      <a class="nav-sub nav-sub--active" href="innsendte-ssb-rapporter.html"><span class="nav-bullet"></span>Innsendte SSB-rapporter</a>
+      <a class="nav-sub" href="uke-28/fraværsoversikt.html"><span class="nav-bullet"></span>Fraværsoversikt</a>
+      <a class="nav-sub" href="uke-28/avstemming.html"><span class="nav-bullet"></span>Avstemming av refusjoner</a>
+      <div class="nav-sub"><span class="nav-bullet"></span>Inntektsmeldinger</div>
+      <div class="nav-sub"><span class="nav-bullet"></span>Innstillinger</div>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h8l2 2v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M10 2v3H5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Bilag</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="7" width="12" height="7" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M4 7V5M8 7V5M12 7V5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M1.5 5h13l-6.5-3L1.5 5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Bank</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></span>Regnskap</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 12V8M7 12V5M11 12V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Rapporter</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L2.5 5v6L8 14l5.5-3V5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 2v12M2.5 5L8 8l5.5-3" stroke="currentColor" stroke-width="1.3"/></svg></span>Prosjekt</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h10v13l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 7h5M5.5 9.5h5M5.5 5h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Faktura</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 13c0-2.5 2.2-4.5 5-4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="11.5" cy="10" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 8.5v1.5l1 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Kunde</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4.5" width="12" height="7.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.5v1M6.5 8.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Lønn</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2.5 2.5L11 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Oppgave</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5L13 5.5V14H3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 2v4h4" stroke="currentColor" stroke-width="1.3"/></svg></span>Dokument</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M7 4.5h2V7M9 7v2H7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Integrasjoner</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5.5 10.5h5M8 9v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Årsoppgjør</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 6V5a2.5 2.5 0 015 0v1" stroke="currentColor" stroke-width="1.3"/></svg></span>Selskap</a>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="page">
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+          <a class="breadcrumb-link" href="fraværsstatistikk.html">Fraværsstatistikk</a>
+          <span class="breadcrumb-sep">/</span>
+          <span>Innsendte SSB-rapporter</span>
+        </div>
+
+        <!-- Page header -->
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1 class="page-title">Innsendte SSB-rapporter</h1>
+            <p class="page-subtitle">SSB-rapporter kan ikke endres etter de har blitt sendt inn.</p>
+          </div>
+          <a href="send-ssb-rapport.html" class="btn btn--primary">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Ny SSB-rapport
+          </a>
+        </div>
+
+        <!-- Table card -->
+        <div class="table-card">
+
+          <!-- Search bar -->
+          <div class="search-bar">
+            <div class="search-input-wrap">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M9.5 9.5L12.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <input class="search-input" type="text" placeholder="Search">
+            </div>
+          </div>
+
+          <!-- Table -->
+          <table class="reports-table">
+            <thead>
+              <tr>
+                <th class="col-name col-sort">
+                  <span class="th-sort">Rapport
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 4.5L6 2.5L8 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 7.5L6 9.5L8 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </th>
+                <th class="col-date col-sort">
+                  <span class="th-sort">Dato sendt
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 4.5L6 2.5L8 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/><path d="M4 7.5L6 9.5L8 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </th>
+                <th class="col-actions"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="visRapport(0)" style="cursor:pointer;">
+                <td class="col-name"><span class="td-name">Egenmeldt sykefravær Q1 2026</span></td>
+                <td class="col-date">03.04.2026</td>
+                <td class="col-actions"><button class="icon-btn" title="Se rapport"><svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M1.5 8C4 3.5 12 3.5 14.5 8C12 12.5 4 12.5 1.5 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+              </tr>
+              <tr onclick="visRapport(1)" style="cursor:pointer;">
+                <td class="col-name"><span class="td-name">Egenmeldt sykefravær Q4 2025</span></td>
+                <td class="col-date">02.01.2026</td>
+                <td class="col-actions"><button class="icon-btn" title="Se rapport"><svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M1.5 8C4 3.5 12 3.5 14.5 8C12 12.5 4 12.5 1.5 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+              </tr>
+              <tr onclick="visRapport(2)" style="cursor:pointer;">
+                <td class="col-name"><span class="td-name">Egenmeldt sykefravær Q3 2025</span></td>
+                <td class="col-date">03.10.2025</td>
+                <td class="col-actions"><button class="icon-btn" title="Se rapport"><svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M1.5 8C4 3.5 12 3.5 14.5 8C12 12.5 4 12.5 1.5 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+              </tr>
+              <tr onclick="visRapport(3)" style="cursor:pointer;">
+                <td class="col-name"><span class="td-name">Egenmeldt sykefravær Q2 2025</span></td>
+                <td class="col-date">03.07.2025</td>
+                <td class="col-actions"><button class="icon-btn" title="Se rapport"><svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M1.5 8C4 3.5 12 3.5 14.5 8C12 12.5 4 12.5 1.5 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+              </tr>
+              <tr onclick="visRapport(4)" style="cursor:pointer;">
+                <td class="col-name"><span class="td-name">Egenmeldt sykefravær Q1 2025</span></td>
+                <td class="col-date">03.04.2025</td>
+                <td class="col-actions"><button class="icon-btn" title="Se rapport"><svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M1.5 8C4 3.5 12 3.5 14.5 8C12 12.5 4 12.5 1.5 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+              </tr>
+              <tr onclick="visRapport(5)" style="cursor:pointer;">
+                <td class="col-name"><span class="td-name">Egenmeldt sykefravær Q4 2024</span></td>
+                <td class="col-date">02.01.2025</td>
+                <td class="col-actions"><button class="icon-btn" title="Se rapport"><svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M1.5 8C4 3.5 12 3.5 14.5 8C12 12.5 4 12.5 1.5 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+              </tr>
+              <tr onclick="visRapport(6)" style="cursor:pointer;">
+                <td class="col-name"><span class="td-name">Egenmeldt sykefravær Q3 2024</span></td>
+                <td class="col-date">03.10.2024</td>
+                <td class="col-actions"><button class="icon-btn" title="Se rapport"><svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M1.5 8C4 3.5 12 3.5 14.5 8C12 12.5 4 12.5 1.5 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+              </tr>
+              <tr onclick="visRapport(7)" style="cursor:pointer;">
+                <td class="col-name"><span class="td-name">Egenmeldt sykefravær Q2 2024</span></td>
+                <td class="col-date">03.07.2024</td>
+                <td class="col-actions"><button class="icon-btn" title="Se rapport"><svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M1.5 8C4 3.5 12 3.5 14.5 8C12 12.5 4 12.5 1.5 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+              </tr>
+              <tr onclick="visRapport(8)" style="cursor:pointer;">
+                <td class="col-name"><span class="td-name">Egenmeldt sykefravær Q1 2024</span></td>
+                <td class="col-date">03.04.2024</td>
+                <td class="col-actions"><button class="icon-btn" title="Se rapport"><svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M1.5 8C4 3.5 12 3.5 14.5 8C12 12.5 4 12.5 1.5 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div><!-- /table-card -->
+
+      </div><!-- /page -->
+    </div><!-- /main-content -->
+
+  </div><!-- /shell-body -->
+</div><!-- /shell -->
+
+<!-- Modal -->
+<div id="modal-rapport" class="modal-overlay modal-overlay--hidden" onclick="if(event.target===this)lukkModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <p id="modal-tittel" class="modal-title"></p>
+      <p id="modal-undertittel" class="modal-subtitle"></p>
+      <button class="modal-close" onclick="lukkModal()" title="Lukk">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal-table-wrap">
+      <table class="modal-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;">Beskrivelse</th>
+            <th>Kvinner</th>
+            <th>Alle kjønn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Antall personer med egenmelding</td><td>10</td><td>20</td></tr>
+          <tr><td>Antall egenmeldingstilfeller</td><td>11</td><td>21</td></tr>
+          <tr><td>Antall arbeidsdager med egenmelding</td><td>12</td><td>23</td></tr>
+          <tr><td>Antall dagsverk tapt til egenmelding</td><td>12</td><td>23</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex; justify-content:flex-start;">
+      <button class="btn btn--primary" onclick="lukkModal()">Lukk</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var rapporter = [
+  { tittel: 'Egenmeldt sykefravær Q1 2026', dato: '03.04.2026' },
+  { tittel: 'Egenmeldt sykefravær Q4 2025', dato: '02.01.2026' },
+  { tittel: 'Egenmeldt sykefravær Q3 2025', dato: '03.10.2025' },
+  { tittel: 'Egenmeldt sykefravær Q2 2025', dato: '03.07.2025' },
+  { tittel: 'Egenmeldt sykefravær Q1 2025', dato: '03.04.2025' },
+  { tittel: 'Egenmeldt sykefravær Q4 2024', dato: '02.01.2025' },
+  { tittel: 'Egenmeldt sykefravær Q3 2024', dato: '03.10.2024' },
+  { tittel: 'Egenmeldt sykefravær Q2 2024', dato: '03.07.2024' },
+  { tittel: 'Egenmeldt sykefravær Q1 2024', dato: '03.04.2024' }
+];
+
+function visRapport(idx) {
+  var r = rapporter[idx];
+  document.getElementById('modal-tittel').textContent = r.tittel;
+  document.getElementById('modal-undertittel').textContent = 'Sendt til SSB ' + r.dato;
+  document.getElementById('modal-rapport').classList.remove('modal-overlay--hidden');
+}
+
+function lukkModal() {
+  document.getElementById('modal-rapport').classList.add('modal-overlay--hidden');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') lukkModal();
+});
+</script>
+</body>
+</html>
