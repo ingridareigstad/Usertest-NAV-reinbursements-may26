@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fraværsskjema – Tripletex</title>
+<link rel="stylesheet" href="https://cdn.tripletex.no/google-fonts/rubik-400-500-800.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --atl-color-white: #ffffff;
+    --atl-color-bg: #f7f8fc;
+    --atl-color-blue-5: #f2f5ff;
+    --atl-color-blue-10: #e6ebff;
+    --atl-color-blue-20: #ced9fe;
+    --atl-color-blue-60: #6c8dfc;
+    --atl-color-blue-80: #3b67fb;
+    --atl-color-blue-100: #0a41fa;
+    --atl-color-grey-5: #f4f5f6;
+    --atl-color-grey-10: #e9eaed;
+    --atl-color-grey-20: #d5d7db;
+    --atl-color-grey-40: #abafb7;
+    --atl-color-grey-60: #818794;
+    --atl-color-grey-80: #51596a;
+    --atl-color-grey-100: #2e384d;
+    --atl-color-green-5: #f4fbf4;
+    --atl-color-green-40: #addeab;
+    --atl-color-green-100: #33ac2e;
+    --atl-color-yellow-5: #fffcf5;
+    --atl-color-yellow-40: #fce6af;
+    --atl-color-yellow-100: #f7c137;
+    --atl-border-radius: 4px;
+    --atl-font-normal: 400;
+    --atl-font-medium: 500;
+    --atl-text-sm: 14px/20px "Rubik", sans-serif;
+  }
+
+  body { font: var(--atl-text-sm); font-weight: var(--atl-font-normal); color: var(--atl-color-grey-100); background: var(--atl-color-bg); height: 100vh; overflow: hidden; }
+
+  .shell { display: flex; flex-direction: column; height: 100vh; }
+
+  /* Topbar */
+  .topbar { height: 48px; background: #D8EAEB; display: flex; align-items: center; padding: 0 8px 0 12px; flex-shrink: 0; z-index: 100; }
+  .tb-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+  .tb-icon-btn { width: 32px; height: 32px; background: none; border: none; cursor: default; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--atl-color-grey-100); flex-shrink: 0; }
+  .tb-logo { font: 500 17px/1 "Rubik", sans-serif; color: var(--atl-color-grey-100); letter-spacing: -0.5px; flex-shrink: 0; }
+  .tb-sep { width: 1px; height: 18px; background: var(--atl-color-grey-20); flex-shrink: 0; margin: 0 4px; }
+  .tb-company { display: flex; align-items: center; gap: 6px; }
+  .tb-company-badge { width: 22px; height: 22px; border-radius: 50%; background: var(--atl-color-blue-100); color: #fff; font: 600 11px/1 "Rubik", sans-serif; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tb-company-name { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .tb-right { display: flex; align-items: center; gap: 2px; }
+  .tb-search { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; background: #fff; border: 1px solid var(--atl-color-grey-20); border-radius: 99px; font: var(--atl-text-sm); color: var(--atl-color-grey-60); width: 128px; margin-right: 6px; cursor: default; flex-shrink: 0; }
+  .tb-assistant { height: 30px; padding: 0 10px; background: #E9F5F5; border: none; border-radius: 4px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); cursor: default; display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; margin-right: 4px; }
+
+  .shell-body { display: flex; flex: 1; overflow: hidden; }
+
+  /* Sidebar */
+  .sidebar { width: 222px; background: #F7F8FC; border-right: 1px solid var(--atl-color-grey-10); overflow-y: auto; overflow-x: hidden; flex-shrink: 0; padding: 4px 0; }
+  .nav-item { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; margin: 1px 6px; border-radius: 5px; font: var(--atl-text-sm); color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; overflow: hidden; }
+  .nav-item--active { background: transparent; color: var(--atl-color-grey-100); }
+  .nav-icon { width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: inherit; }
+  .nav-item--active .nav-icon { width: 24px; height: 24px; background: var(--atl-color-blue-100); border-radius: 5px; color: #fff; }
+  .nav-sub { display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 10px 0 34px; margin: 0 6px; border-radius: 5px; font: 12px/1 "Rubik", sans-serif; color: var(--atl-color-grey-80); text-decoration: none; cursor: default; white-space: nowrap; }
+  .nav-sub--active { color: var(--atl-color-grey-100); font-weight: 500; }
+  .nav-bullet { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  /* Main */
+  .main-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; padding: 28px 16px 16px; gap: 28px; }
+  .page-header { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .page-title { font: 24px/1.3 "Rubik", sans-serif; font-weight: 400; color: var(--atl-color-grey-100); }
+
+  /* Button */
+  .btn { height: 36px; padding: 0 16px; border-radius: 4px; font: var(--atl-text-sm); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border: 1px solid transparent; text-decoration: none; }
+  .btn--primary { background: var(--atl-color-blue-100); color: #fff; border-color: var(--atl-color-blue-100); }
+  .btn--primary:hover { background: var(--atl-color-blue-80); }
+
+  /* Modal overlay */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 500; display: flex; align-items: center; justify-content: center; }
+  .modal-overlay--hidden { display: none; }
+  .modal-box { background: #fff; border-radius: 4px; width: 665px; box-shadow: 0 8px 40px rgba(0,0,0,0.18); position: relative; display: flex; flex-direction: column; max-height: 90vh; overflow-y: auto; }
+  .modal-inner { padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+  .modal-title { font: 500 20px/1.3 "Rubik", sans-serif; color: var(--atl-color-grey-100); }
+  .modal-close { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--atl-color-grey-60); }
+  .modal-close:hover { background: var(--atl-color-grey-5); }
+
+  /* Form */
+  .form-slot { display: flex; flex-direction: column; gap: 32px; }
+  .form-field { display: flex; flex-direction: column; gap: 8px; }
+  .form-label { font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .form-select { width: 100%; height: 40px; padding: 0 10px 0 16px; border: 1px solid var(--atl-color-grey-60); border-radius: 4px; background: #f7f8fc; font: var(--atl-text-sm); color: var(--atl-color-grey-100); appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5l5 5 5-5' stroke='%23818794' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; cursor: pointer; }
+  .form-select.placeholder { color: #abafb7; }
+  .form-date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .form-date-input-wrap { display: flex; align-items: center; height: 40px; border: 1px solid var(--atl-color-grey-60); border-radius: 4px; background: #f7f8fc; overflow: hidden; }
+  .form-date-input { flex: 1; height: 100%; padding: 0 8px 0 16px; border: none; background: transparent; font: var(--atl-text-sm); color: var(--atl-color-grey-100); outline: none; }
+  .form-date-input::placeholder { color: #abafb7; }
+  .form-date-btn { width: 32px; height: 32px; margin: 4px; border: none; background: var(--atl-color-blue-20); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: default; color: var(--atl-color-grey-80); }
+  .form-textarea { width: 100%; height: 70px; padding: 10px 16px; border: 1px solid var(--atl-color-grey-60); border-radius: 4px; background: #f7f8fc; font: var(--atl-text-sm); color: var(--atl-color-grey-100); resize: vertical; }
+  .form-textarea::placeholder { color: #abafb7; }
+  .form-helper { font: var(--atl-text-sm); color: var(--atl-color-grey-60); }
+  .form-checkbox-row { display: flex; align-items: center; gap: 8px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .form-checkbox { width: 18px; height: 18px; border: 1px solid var(--atl-color-grey-60); border-radius: 2px; background: #f7f8fc; flex-shrink: 0; appearance: none; cursor: pointer; }
+  .form-checkbox:checked { background: var(--atl-color-blue-100); border-color: var(--atl-color-blue-100); }
+  .form-info-row { display: flex; align-items: flex-start; gap: 8px; font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .form-info-icon { flex-shrink: 0; margin-top: 1px; color: var(--atl-color-grey-60); }
+  .form-footer { display: flex; gap: 8px; }
+  .form-btn-primary { height: 40px; padding: 0 16px; border-radius: 4px; background: var(--atl-color-blue-100); color: #fff; border: none; font: var(--atl-text-sm); cursor: pointer; }
+  .form-btn-primary:hover { background: var(--atl-color-blue-80); }
+  .form-btn-secondary { height: 40px; padding: 0 16px; border-radius: 4px; background: var(--atl-color-blue-10); color: var(--atl-color-blue-100); border: none; font: var(--atl-text-sm); cursor: pointer; }
+  .form-btn-secondary:hover { background: var(--atl-color-blue-20); }
+
+  /* Warning alert */
+  .form-alert { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border: 1px solid var(--atl-color-yellow-100); border-radius: 4px; background: var(--atl-color-yellow-5); font: var(--atl-text-sm); color: var(--atl-color-grey-100); }
+  .form-alert svg { flex-shrink: 0; margin-top: 1px; }
+
+  /* Toast */
+  .toast { position: fixed; top: 16px; right: 16px; z-index: 600; width: 340px; background: var(--atl-color-green-5); border: 1px solid var(--atl-color-green-40); border-radius: 4px; padding: 14px 16px; display: flex; gap: 10px; align-items: flex-start; box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+  .toast--hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="tb-icon-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect y="2.5" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="7" width="16" height="1.5" rx="0.75" fill="currentColor"/><rect y="11.5" width="16" height="1.5" rx="0.75" fill="currentColor"/></svg></button>
+      <span class="tb-logo">tripletex</span>
+      <div class="tb-sep"></div>
+      <div class="tb-company">
+        <span class="tb-company-badge">T</span>
+        <span class="tb-company-name">Tripletex AS</span>
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-search"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M9.5 9.5L12.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Søk</div>
+      <button class="tb-assistant">Assistent ✦</button>
+      <button class="tb-icon-btn" title="Favoritter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5 3.7.5-2.7 2.6.6 3.7L8 10.5l-3.1 1.8.6-3.7L3 5.5l3.7-.5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Last ned"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2.5v7M5.5 7l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Varsler"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 003.5 6v3L2 11h12l-1.5-2V6A4.5 4.5 0 008 1.5z" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      <button class="tb-icon-btn" title="Meldinger"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 13.5l1.5-2h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Hjelp"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 6.5a2 2 0 114 0c0 1.5-2 1.5-2 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" title="Kunngjøringer"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2l1 3H13l-2.5 2 1 3L8 8.5 4.5 10l1-3L3 5h4L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
+      <button class="tb-icon-btn" title="Rapporter"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5L13 5.5V14H3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 2v4h4M6 9h4M6 11.5h2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      <button class="tb-icon-btn" style="width:28px;height:28px;background:var(--atl-color-grey-10);border-radius:50%;" title="Bruker"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+
+  <!-- Shell body -->
+  <div class="shell-body">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <a class="nav-item" href="#"><span class="nav-icon" style="color:#f7c137;"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5l1.6 3.6 3.9.6-2.8 2.7.7 3.9L8 10.5l-3.4 1.8.7-3.9L2.5 5.7l3.9-.6L8 1.5z"/></svg></span>Favoritter</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 7.5l6-5 6 5V14H10.5v-4h-5v4H2V7.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Hjem</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Klient</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Timeliste</a>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8.5L2 13l1.5-4.5L2 4l11.5 4.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>Reiser og utlegg</a>
+      <div class="nav-item nav-item--active"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>Ferie og fravær</div>
+      <a class="nav-sub" href="varsel.html"><span class="nav-bullet"></span>Avstemming av NAV-refusjoner</a>
+      <a class="nav-sub" href="fraværsstatistikk.html"><span class="nav-bullet"></span>Fraværsstatistikk</a>
+      <a class="nav-sub nav-sub--active" href="fraværsskjema.html"><span class="nav-bullet"></span>Fraværsskjema</a>
+      <a class="nav-sub" href="uke-28/fraværsoversikt.html"><span class="nav-bullet"></span>Fraværsoversikt</a>
+      <a class="nav-sub" href="uke-28/avstemming.html"><span class="nav-bullet"></span>Avstemming av refusjoner</a>
+      <div class="nav-sub"><span class="nav-bullet"></span>Inntektsmeldinger</div>
+      <div class="nav-sub"><span class="nav-bullet"></span>Innstillinger</div>
+      <a class="nav-item" href="#"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 13c0-2.5 2.2-4.5 5-4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="11.5" cy="10" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 8.5v1.5l1 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Lønn</a>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Fraværsskjema</h1>
+        <button class="btn btn--primary" onclick="opneSkjema();">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Nytt fravær
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /shell-body -->
+</div><!-- /shell -->
+
+<!-- Toast -->
+<div id="toast-sendt" class="toast toast--hidden">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px;"><circle cx="10" cy="10" r="8" stroke="#33ac2e" stroke-width="1.4"/><path d="M6.5 10l2.5 2.5 4-4" stroke="#33ac2e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span style="font:var(--atl-text-sm);color:var(--atl-color-grey-100);">Fraværet er registrert.</span>
+</div>
+
+<!-- Modal: Fraværsskjema -->
+<div id="modal-skjema" class="modal-overlay" onclick="if(event.target===this)lukkSkjema();">
+  <div class="modal-box">
+
+    <!-- State: Tom -->
+    <div id="state-empty" class="modal-inner">
+      <p class="modal-title">Nytt fravær</p>
+      <button class="modal-close" onclick="lukkSkjema();" aria-label="Lukk">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+
+      <div class="form-slot">
+        <!-- Fraværstype -->
+        <div class="form-field">
+          <label class="form-label">Velg fraværstype <span style="color:var(--atl-color-grey-100);">*</span></label>
+          <select class="form-select placeholder" onchange="this.classList.remove('placeholder'); if(this.value) byttTilUtfylt();">
+            <option value="" disabled selected>Fraværstype</option>
+            <option value="egenmelding">Egenmelding</option>
+            <option value="sykemelding">Sykemelding</option>
+            <option value="ferie">Ferie</option>
+            <option value="permisjon">Permisjon</option>
+          </select>
+        </div>
+
+        <!-- Datoer -->
+        <div class="form-date-row">
+          <div class="form-field">
+            <label class="form-label">Startdato <span style="color:var(--atl-color-grey-100);">*</span></label>
+            <div class="form-date-input-wrap">
+              <input type="text" class="form-date-input" placeholder="YYYY-MM-DD">
+              <div class="form-date-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Sluttdato</label>
+            <div class="form-date-input-wrap">
+              <input type="text" class="form-date-input" placeholder="YYYY-MM-DD">
+              <div class="form-date-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kommentar -->
+        <div class="form-field">
+          <label class="form-label">Kommentar til leder</label>
+          <textarea class="form-textarea" placeholder="Din kommentar"></textarea>
+          <p class="form-helper">Unngå å dele sensitive personopplysninger som diagnoser, symptomer og/eller behandling.</p>
+        </div>
+
+        <!-- Info -->
+        <div class="form-info-row">
+          <svg class="form-info-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#818794" stroke-width="1.3"/><path d="M10 9v5" stroke="#818794" stroke-width="1.3" stroke-linecap="round"/><circle cx="10" cy="6.5" r="0.75" fill="#818794"/></svg>
+          <p>Ved innsendt skjema registreres fraværet og din leder får beskjed. Timelisten vil bli oppdatert automatiskt.</p>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button class="form-btn-primary" onclick="sendInn();">Send inn</button>
+        <button class="form-btn-secondary" onclick="lukkSkjema();">Avbryt</button>
+      </div>
+    </div>
+
+    <!-- State: Utfylt -->
+    <div id="state-filled" class="modal-inner" style="display:none;">
+      <p class="modal-title">Nytt fravær</p>
+      <button class="modal-close" onclick="lukkSkjema();" aria-label="Lukk">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+
+      <div class="form-slot">
+        <!-- Fraværstype -->
+        <div class="form-field">
+          <label class="form-label">Velg fraværstype <span style="color:var(--atl-color-grey-100);">*</span></label>
+          <select class="form-select">
+            <option value="" disabled>Fraværstype</option>
+            <option value="egenmelding" selected>Egenmelding</option>
+            <option value="sykemelding">Sykemelding</option>
+            <option value="ferie">Ferie</option>
+            <option value="permisjon">Permisjon</option>
+          </select>
+        </div>
+
+        <!-- Datoer -->
+        <div class="form-date-row">
+          <div class="form-field">
+            <label class="form-label">Startdato <span style="color:var(--atl-color-grey-100);">*</span></label>
+            <div class="form-date-input-wrap">
+              <input type="text" class="form-date-input" value="2026-01-20">
+              <div class="form-date-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Sluttdato</label>
+            <div class="form-date-input-wrap">
+              <input type="text" class="form-date-input" value="2026-01-21">
+              <div class="form-date-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kommentar -->
+        <div class="form-field">
+          <label class="form-label">Kommentar til leder</label>
+          <textarea class="form-textarea">Var syk disse datoene.</textarea>
+          <p class="form-helper">Unngå å dele sensitive personopplysninger som diagnoser, symptomer og/eller behandling.</p>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="form-checkbox-row">
+          <input type="checkbox" class="form-checkbox" id="arbeidsrelatert">
+          <label for="arbeidsrelatert">Fraværet er arbeidsrelatert</label>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="color:var(--atl-color-grey-60);flex-shrink:0;"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 6.5v3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="5" r="0.6" fill="currentColor"/></svg>
+        </div>
+
+        <!-- Info -->
+        <div class="form-info-row">
+          <svg class="form-info-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#818794" stroke-width="1.3"/><path d="M10 9v5" stroke="#818794" stroke-width="1.3" stroke-linecap="round"/><circle cx="10" cy="6.5" r="0.75" fill="#818794"/></svg>
+          <p>Ved innsendt skjema registreres fraværet og din leder får beskjed. Timelisten vil bli oppdatert automatiskt.</p>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button class="form-btn-primary" onclick="sendInn();">Send inn</button>
+        <button class="form-btn-secondary" onclick="lukkSkjema();">Avbryt</button>
+      </div>
+    </div>
+
+  </div><!-- /modal-box -->
+</div><!-- /modal-overlay -->
+
+<script>
+  function opneSkjema() {
+    document.getElementById('modal-skjema').classList.remove('modal-overlay--hidden');
+    document.getElementById('state-empty').style.display = '';
+    document.getElementById('state-filled').style.display = 'none';
+    // Reset empty form select
+    var sel = document.querySelector('#state-empty .form-select');
+    sel.value = '';
+    sel.classList.add('placeholder');
+  }
+  function lukkSkjema() {
+    document.getElementById('modal-skjema').classList.add('modal-overlay--hidden');
+  }
+  function byttTilUtfylt() {
+    document.getElementById('state-empty').style.display = 'none';
+    document.getElementById('state-filled').style.display = '';
+  }
+  function sendInn() {
+    lukkSkjema();
+    var toast = document.getElementById('toast-sendt');
+    toast.classList.remove('toast--hidden');
+    setTimeout(function() { toast.classList.add('toast--hidden'); }, 4000);
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') lukkSkjema();
+  });
+</script>
+</body>
+</html>
